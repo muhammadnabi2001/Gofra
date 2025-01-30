@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,5 +29,9 @@ class UserController extends Controller
     
         $user->roles()->attach($validated['role_id']);
         return redirect()->back()->with('success',"User created successfully");
+    }
+    public function update(UserUpdateRequest $request)
+    {
+        dd($request->all());
     }
 }

@@ -31,4 +31,5 @@ Route::delete('/delete/{permission}',[PermitController::class,'delete'])->name('
 Route::prefix('user')->group(function() {
 Route::get('/',[UserController::class,'index'])->name('user');
 Route::post('/create',[UserController::class,'create'])->name('user.create');
+Route::put('/update/{user}',[UserController::class,'update'])->name('user.update');
 });

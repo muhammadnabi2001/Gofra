@@ -46,17 +46,14 @@
                                 @csrf
                             
                                 <!-- Role tanlash (Select2) -->
-                                <div class="mb-3">
-                                    <label for="roleSelect" class="form-label">Select Roles</label>
-                                    <select class="form-control select2" id="roleSelect" name="role_id[]" multiple="multiple" data-placeholder="Select roles" style="width: 100%;">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" {{ collect(old('role_id'))->contains($role->id) ? 'selected' : '' }}>
-                                                {{ $role->name }}
-                                            </option>
+                                <div class="select2-purple mb-3">
+                                    <label>Role ni tanlang</label>
+                                    <select class="select2 form-control" multiple="multiple" data-placeholder="roleni tanlang" data-dropdown-css-class="select2-purple" style="width: 100%;" name="role_id[]">
+                                        @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                            
                                 <!-- User name -->
                                 <div class="mb-3">
                                     <label for="userName" class="form-label">User Name</label>
@@ -99,7 +96,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    {{-- <th>Group</th> --}}
+                                    <th>Email</th>
+                                    <th>Roles</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -108,61 +106,78 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            @foreach ($user->roles as $role)
+                                                {{ $role->name }}@if (!$loop->last), @endif
+                                            @endforeach
+                                        </td>
+                                        
                                         {{-- <td>{{ $permission->group->name }}</td> --}}
                                         <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#updateexampleModal{{ $user->id }}">
-                                                Update
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="updateexampleModal{{ $user->id }}"
-                                                tabindex="-1"
-                                                aria-labelledby="updateexampleModalLabel{{ $user->id }}"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="updateexampleModalLabel">
-                                                                Modal title</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form method="POST" action="{{ route('permission.update', $user->id) }}">
-                                                                @csrf
-                                                                @method('PUT')
-                                                            
-                                                                {{-- <div class="mb-3">
-                                                                    <label for="groupSelect" class="form-label">Select Group</label>
-                                                                    <select class="form-control" id="groupSelect" name="group_id">
-                                                                        <option value="">-- Select a group --</option>
-                                                                        @foreach ($roles as $role)
-                                                                            <option value="{{ $role->id }}" 
-                                                                                {{ $permission->role_id == $group->id ? 'selected' : '' }}>
-                                                                                {{ $group->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div> --}}
-                                                            
-                                                                <div class="mb-3">
-                                                                    <label for="updateexampleInputEmail1" class="form-label">Role name</label>
-                                                                    <input type="text" class="form-control" id="updateexampleInputEmail1" name="name"
-                                                                        value="{{ $user->name }}">
-                                                                </div>
-                                                            
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Save</button>
-                                                                </div>
-                                                            </form>
-                                                            
-
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{$user->id}}">
+                                                    Update
+                                                </button>
+                                    
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="updateModal{{$user->id}}" tabindex="-1" aria-labelledby="updateModalLabel{{$user->id}}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="updateModalLabel">Modal title</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="POST" action="{{route('user.update',$user->id)}}">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <!-- Role tanlash (Select2) -->
+                                                                    <div class="select2-purple mb-3">
+                                                                        <label>Rollar</label>
+                                                                        <select class="select2 form-control" multiple="multiple" data-placeholder="roleni tanlang" data-dropdown-css-class="select2-purple" style="width: 100%;" name="role_id[]">
+                                                                            @foreach($roles as $role)
+                                                                                <option value="{{ $role->id }}" 
+                                                                                        @if(in_array($role->id, $user->roles->pluck('id')->toArray())) selected @endif>
+                                                                                    {{ $role->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                    
+                                                                    <!-- User name -->
+                                                                    <div class="mb-3">
+                                                                        <label for="userName" class="form-label">User Name</label>
+                                                                        <input type="text" class="form-control" id="userName" name="name" placeholder="Input username" value="{{$user->name}}">
+                                                                    </div>
+                                                                
+                                                                    <!-- Email -->
+                                                                    <div class="mb-3">
+                                                                        <label for="userEmail" class="form-label">Email</label>
+                                                                        <input type="email" class="form-control" id="userEmail" name="email" placeholder="Enter email" value="{{$user->email}}">
+                                                                    </div>
+                                                                
+                                                                    <!-- Password -->
+                                                                    <div class="mb-3">
+                                                                        <label for="userPassword" class="form-label">Password</label>
+                                                                        <input type="password" class="form-control" id="userPassword" name="password" placeholder="Enter password">
+                                                                    </div>
+                                                                
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                                    </div>
+                                                                </form>
+                                                                
+                                                                
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             <!-- Delete Form -->
                                             <form method="POST" action="{{ route('permission.delete', $user->id) }}"
                                                 style="display: inline;">
@@ -182,4 +197,6 @@
             </div>
         </div>
     </div>
+   
+    
 @endsection
