@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'name'
     ];
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'role_users'); // Pivot jadvali nomi role_users
+    }
 }
