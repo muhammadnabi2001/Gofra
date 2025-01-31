@@ -46,14 +46,15 @@
                                 @csrf
                             
                                 <!-- Role tanlash (Select2) -->
-                                <div class="select2-purple mb-3">
+                                <div class="mb-3">
                                     <label>Role ni tanlang</label>
-                                    <select class="select2 form-control" multiple="multiple" data-placeholder="roleni tanlang" data-dropdown-css-class="select2-purple" style="width: 100%;" name="role_id[]">
+                                    <select class="form-control" data-placeholder="roleni tanlang" style="width: 100%;" name="role_id">
                                         @foreach($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                
                                 <!-- User name -->
                                 <div class="mb-3">
                                     <label for="userName" class="form-label">User Name</label>
@@ -135,17 +136,18 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <!-- Role tanlash (Select2) -->
-                                                                    <div class="select2-purple mb-3">
-                                                                        <label>Rollar</label>
-                                                                        <select class="select2 form-control" multiple="multiple" data-placeholder="roleni tanlang" data-dropdown-css-class="select2-purple" style="width: 100%;" name="role_id[]">
+                                                                    <div class="mb-3">
+                                                                        <label for="role_id" class="form-label">Role tanlang</label>
+                                                                        <select class="form-control" name="role_id" id="role_id">
                                                                             @foreach($roles as $role)
                                                                                 <option value="{{ $role->id }}" 
-                                                                                        @if(in_array($role->id, $user->roles->pluck('id')->toArray())) selected @endif>
+                                                                                        @if($user->role && $user->role->id == $role->id) selected @endif>
                                                                                     {{ $role->name }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
+                                                                    
                                                                     
                                                                     
                                                                     
@@ -179,7 +181,7 @@
                                                     </div>
                                                 </div>
                                             <!-- Delete Form -->
-                                            <form method="POST" action="{{ route('permission.delete', $user->id) }}"
+                                            <form method="POST" action="{{route('user.delete',$user->id)}}"
                                                 style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')

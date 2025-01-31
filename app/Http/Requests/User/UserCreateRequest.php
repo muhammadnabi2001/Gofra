@@ -25,8 +25,7 @@ class UserCreateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'role_id' => 'required|array',
-            'role_id.*' => 'exists:roles,id',
+            'role_id' => 'required|exists:roles,id',
         ];
     }
     public function messages(): array
@@ -43,9 +42,8 @@ class UserCreateRequest extends FormRequest
             'password.required' => 'Parol majburiy!',
             'password.min' => 'Parol kamida 6 ta belgi bo‘lishi kerak!',
 
-            'role_id.required' => 'At least one role must be selected.',
-            'role_id.array' => 'Invalid role format. Please select at least one role.',
-            'role_id.*.exists' => 'One or more selected roles do not exist in the system.',
+            'role_id.required' => 'Role tanlash majburiy!',
+            'role_id.exists' => 'Tanlangan role tizimda mavjud emas!',
         ];
     }
 }

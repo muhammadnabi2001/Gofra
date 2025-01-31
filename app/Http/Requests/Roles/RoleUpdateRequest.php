@@ -23,6 +23,8 @@ class RoleUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255', 
+            'permissions' => 'required|array', 
+            'permissions.*' => 'exists:permits,id',
         ];
     }
     public function messages()
@@ -31,6 +33,9 @@ class RoleUpdateRequest extends FormRequest
             'name.required' => 'Role nomi majburiy! Iltimos, nomni kiriting.',
             'name.string' => 'Role nomi faqat matn bo\'lishi kerak.',
             'name.max' => 'Role nomi 255 belgidan oshmasligi kerak.',
+            'permissions.required' => 'Kamida bitta ruxsat tanlash majburiy!', 
+            'permissions.array' => 'Ruxsatlar ro‘yxat ko‘rinishida bo‘lishi kerak.',
+            'permissions.*.exists' => 'Tanlangan ruxsat noto‘g‘ri! Mavjud bo‘lgan ruxsatlardan birini tanlang.',
         ];
     }
 }

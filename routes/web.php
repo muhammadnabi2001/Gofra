@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PermissionGroupController;
-use App\Http\Controllers\PermitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -12,24 +9,16 @@ Route::get('/', function () {
 });
 Route::prefix('role')->group(function () {
     Route::get('/', [RoleController::class, 'index'])->name('role.index');
+    Route::get('/create-page', [RoleController::class, 'page'])->name('role.create-page');
     Route::post('/create', [RoleController::class, 'create'])->name('role.create');
     Route::put('/update/{role}', [RoleController::class, 'update'])->name('role.update');
+    Route::get('/update-page/{role}', [RoleController::class, 'updatepage'])->name('role.update-page');
     Route::delete('/delete/{role}', [RoleController::class, 'delete'])->name('role.delete');
-});
-Route::prefix('group')->group(function () {
-    Route::get('/', [PermissionGroupController::class, 'index'])->name('group');
-    Route::post('/create', [PermissionGroupController::class, 'create'])->name('group.create');
-    Route::put('/update/{group}', [PermissionGroupController::class, 'update'])->name('group.update');
-    Route::delete('/delete/{group}', [PermissionGroupController::class, 'delete'])->name('group.delete');
-});
-Route::prefix('permission')->group(function(){
-Route::get('/',[PermitController::class,'index'])->name('permission');
-Route::post('/create',[PermitController::class,'create'])->name('permission.create');
-Route::put('/update/{permission}',[PermitController::class,'update'])->name('permission.update');
-Route::delete('/delete/{permission}',[PermitController::class,'delete'])->name('permission.delete');
+
 });
 Route::prefix('user')->group(function() {
-Route::get('/',[UserController::class,'index'])->name('user');
+Route::get('/',[UserController::class,'index'])->name('user.index');
 Route::post('/create',[UserController::class,'create'])->name('user.create');
 Route::put('/update/{user}',[UserController::class,'update'])->name('user.update');
+Route::delete('/delete/{user}',[UserController::class,'delete'])->name('user.delete');
 });

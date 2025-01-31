@@ -27,43 +27,8 @@
         <div class="row">
             <div class="col-12 m-3">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Create
-                </button>
+                <a href="{{ route('role.create-page') }}" class="btn btn-primary">Create</a>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" action="{{ route('role.create') }}">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Role name</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" name="name"
-                                            placeholder="Input rolename" value="{{ old('name') }}">
-
-                                        <!-- Xatolik xabarlarini ko'rsatish -->
-
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -77,6 +42,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Activity</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -86,49 +52,15 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#updateexampleModal{{ $role->id }}">
-                                                    Update
-                                                </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="updateexampleModal{{ $role->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="updateexampleModalLabel{{ $role->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="updateexampleModalLabel">
-                                                                    Modal title</h1>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form method="POST"
-                                                                    action="{{ route('role.update', $role->id) }}">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="mb-3">
-                                                                        <label for="updateexampleInputEmail1"
-                                                                            class="form-label">Role name</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="updateexampleInputEmail1" name="name"
-                                                                            value="{{ $role->name }}">
-                                                                    </div>
-
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Save</button>
-                                                                    </div>
-                                                                </form>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @if($role->status)
+                                                    <span style="padding: 0.5rem 1rem; border-radius: 20px; font-size: 1rem; color: white; background-color: #28a745;">Active</span>
+                                                @else
+                                                    <span style="padding: 0.5rem 1rem; border-radius: 20px; font-size: 1rem; color: white; background-color: #dc3545;">Inactive</span>
+                                                @endif
+                                            </td>
+                                            
+                                            <td>
+                                                <a href="{{route('role.update-page',$role->id)}}" class="btn btn-warning">Update</a>
                                                 <!-- Delete Form -->
                                                 <form method="POST" action="{{ route('role.delete', $role->id) }}"
                                                     style="display: inline;">
