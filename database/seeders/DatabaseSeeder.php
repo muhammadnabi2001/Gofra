@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\Role;
+use App\Models\RoleUsers;
 use App\Models\User;
 use App\Models\UserOrder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,14 +19,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
         ]);
-       
+        
         for ($i=1; $i <=10 ; $i++) { 
             Role::create([
                 'name'=>"Role".$i,
+            ]);
+        }
+        // Barcha rollarni olish
+        $roles = Role::all();
+        
+        // Rollarni admin foydalanuvchisiga biriktirish, boshqa maydonlar bilan
+        foreach ($roles as $role) {
+            RoleUsers::create([
+                'role_id'=>$role->id,
+                'user_id'=>$admin->id
             ]);
         }
         

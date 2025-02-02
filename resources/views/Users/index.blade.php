@@ -95,27 +95,27 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                    <th>Actions</th>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Roles</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $index => $user)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">{{ $user->name }}</td>
+                                        <td class="text-center">{{ $user->email }}</td>
+                                        <td class="text-center">
                                             @foreach ($user->roles as $role)
                                                 {{ $role->name }}@if (!$loop->last), @endif
                                             @endforeach
                                         </td>
                                         
                                         {{-- <td>{{ $permission->group->name }}</td> --}}
-                                        <td>
+                                        <td class="text-center">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{$user->id}}">
                                                     Update

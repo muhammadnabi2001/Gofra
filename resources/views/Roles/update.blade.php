@@ -51,7 +51,7 @@
                             <label class="form-label">Permissions</label>
                             @foreach ($permissionGroups as $group)
                                 <div class="mb-2">
-                                    <strong class="d-block bg-primary text-white p-2">{{ $group->name }}</strong>
+                                    <strong class="d-block bg-primary text-white p-2">{{ ucfirst($group->name) }}</strong>
                                 </div>
 
                                 <div class="row">

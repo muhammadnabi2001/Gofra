@@ -13,8 +13,9 @@ class RoleController extends Controller
     public function index()
     {
         //dd(123);
+        $permissionGroups=PermissionGroup::all();
         $roles = Role::orderby('id', 'desc')->paginate(10);
-        return view('Roles.index', ['roles' => $roles]);
+        return view('Roles.index', ['roles' => $roles,'permissionGroups'=>$permissionGroups]);
     }
     public function create(RoleCreateRequest $request)
     {

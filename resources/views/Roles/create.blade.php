@@ -45,8 +45,9 @@
                             @foreach ($permissionGroups as $group)
                             <!-- Group nomi alohida chiqadi -->
                             <div class="mb-2">
-                                <strong class="d-block bg-primary text-white p-2">{{ $group->name }}</strong>
+                                <strong class="d-block bg-primary text-white p-2">{{ ucfirst($group->name) }}</strong>
                             </div>
+                            
 
                             <!-- Guruhga tegishli permissionlar 4 ustundan joylashadi -->
                             <div class="row">
