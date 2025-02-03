@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionGroupController;
@@ -43,4 +44,13 @@ Route::prefix('permission')->group(function() {
 Route::prefix('department')->group(function() {
 Route::get('/',[DepartmentController::class,'index'])->name('department.index');
 Route::post('/create',[DepartmentController::class,'create'])->name('department.create');
+Route::put('/update/{department}',[DepartmentController::class,'update'])->name('department.update');
+});
+Route::prefix('employee')->group(function() {
+    Route::get('/',[EmployeeController::class,'index'])->name('employee.index');
+    Route::get('/create-page',[EmployeeController::class,'page'])->name('employee.create-page');
+    Route::post('/create',[EmployeeController::class,'create'])->name('employee.create');
+    Route::delete('/delete/{employee}',[EmployeeController::class,'delete'])->name('employee.delete');
+    Route::get('/update-page/{employee}',[EmployeeController::class,'updatepage'])->name('employee.update-page');
+    Route::put('/update/{employee}',[EmployeeController::class,'update'])->name('employee.update');
 });

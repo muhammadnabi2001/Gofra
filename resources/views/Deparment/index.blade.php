@@ -98,8 +98,9 @@
                                                                     aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form method="POST" action="{{ route('department.create') }}">
+                                                                <form method="POST" action="{{ route('department.update',$department->id) }}">
                                                                     @csrf
+                                                                    @method('PUT')
                                                                     <div class="mb-3">
                                                                         <label for="userName" class="form-label">Department Name</label>
                                                                         <input type="text" class="form-control" id="userName" name="name" placeholder="Input Department Name" value="{{$department->name}}">

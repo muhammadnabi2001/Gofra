@@ -292,6 +292,12 @@
                                       <p>Departments</p>
                                   </a>
                               </li>
+                              <li class="nav-item">
+                                  <a href="{{route('employee.index')}}" class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
+                                      <i class="nav-icon fas fa-building"></i>
+                                      <p>Employees</p>
+                                  </a>
+                              </li>
                           </ul>
                       </li>
 
