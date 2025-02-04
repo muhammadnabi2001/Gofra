@@ -3,11 +3,13 @@
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionGroupController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalaryTypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
 use Illuminate\Support\Facades\Route;
 
@@ -62,5 +64,18 @@ Route::middleware([Check::class])->group(function () {
         Route::post('/create',[SalaryTypeController::class,'create'])->name('salarytype.create');
         Route::put('/update/{salarytype}',[SalaryTypeController::class,'update'])->name('salarytype.update');
         Route::delete('/delete/{salarytype}',[SalaryTypeController::class,'delete'])->name('salarytype.delete');
+    });
+    Route::prefix('warehouse')->group(function() {
+        Route::get('/',[WarehouseController::class,'index'])->name('warehouse.index');
+        Route::post('/create',[WarehouseController::class,'create'])->name('warehouse.create');
+        Route::delete('/delete/{warehouse}',[WarehouseController::class,'delete'])->name('warehouse.delete');
+        Route::put('/update/{warehouse}',[WarehouseController::class,'update'])->name('warehouse.update');
+        Route::put('activity/{warehouse}',[WarehouseController::class,'activity'])->name('warehouse.activity');
+    });
+    Route::prefix('materials')->group(function(){
+        Route::get('/',[MaterialController::class,'index'])->name('materials.index');
+        Route::post('/create',[MaterialController::class,'create'])->name('materials.create');
+        Route::put('/update/{material}',[MaterialController::class,'update'])->name('materials.update');
+        Route::delete('/delete/{material}',[MaterialController::class,'delete'])->name('materials.delete');
     });
 });
