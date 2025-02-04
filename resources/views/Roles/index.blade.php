@@ -50,7 +50,7 @@
                                 <tbody>
                                     @foreach ($roles as $index => $role)
                                         <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td class="text-center">{{ ($roles->currentPage() - 1) * $roles->perPage() + $loop->iteration }}</td>
                                             <td class="text-center">{{ $role->name }}</td>
                                             <td class="text-center">
                                                 @if ($role->status)

@@ -52,7 +52,8 @@
                                 <tbody>
                                     @foreach ($employees as $index => $employee)
                                         <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td class="text-center">{{ ($employees->currentPage() - 1) * $employees->perPage() + $loop->iteration }}</td>
+
                                             <td class="text-center">{{ $employee->user->name }}</td>
                                             <td class="text-center">{{ $employee->phone }}</td>
                                             <td class="text-center">{{ $employee->address }}</td>

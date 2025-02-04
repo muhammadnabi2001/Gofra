@@ -46,7 +46,8 @@
                             <tbody>
                                 @foreach ($permissions as $index => $permission)
                                     <tr>
-                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}</td>
+
                                         <td class="text-center">{{ $permission->name }}</td>
                                         <td class="text-center">{{ $permission->path }}</td>
                                         <td class="text-center">

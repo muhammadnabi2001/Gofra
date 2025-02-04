@@ -24,21 +24,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
         ]);
         
-        for ($i=1; $i <=10 ; $i++) { 
-            Role::create([
-                'name'=>"Role".$i,
-            ]);
-        }
-        // Barcha rollarni olish
-        $roles = Role::all();
         
-        // Rollarni admin foydalanuvchisiga biriktirish, boshqa maydonlar bilan
-        foreach ($roles as $role) {
-            RoleUsers::create([
-                'role_id'=>$role->id,
-                'user_id'=>$admin->id
-            ]);
-        }
+       
         
         
 

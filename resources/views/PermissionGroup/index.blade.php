@@ -44,7 +44,7 @@
                             <tbody>
                                 @foreach ($permissionGroups as $index => $group)
                                     <tr>
-                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">{{ ($permissionGroups->currentPage() - 1) * $permissionGroups->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $group->name }}</td>
                                         <td class="text-center">
                                             <form action="{{ route('group.update', $group->id) }}" method="POST">

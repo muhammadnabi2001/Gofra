@@ -172,7 +172,7 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Create Employee</button>
-                                <a href="" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('employee.index') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

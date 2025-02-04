@@ -79,7 +79,8 @@
                                 <tbody>
                                     @foreach ($departments as $index => $department)
                                         <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td class="text-center">{{ ($departments->currentPage() - 1) * $departments->perPage() + $loop->iteration }}</td>
+
                                             <td class="text-center">{{ $department->name }}</td>
                                             </td>
 

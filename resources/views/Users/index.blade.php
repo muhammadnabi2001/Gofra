@@ -105,7 +105,8 @@
                             <tbody>
                                 @foreach ($users as $index => $user)
                                     <tr>
-                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td class="text-center">{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
+
                                         <td class="text-center">{{ $user->name }}</td>
                                         <td class="text-center">{{ $user->email }}</td>
                                         <td class="text-center">
