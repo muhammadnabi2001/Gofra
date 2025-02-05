@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Material;
+namespace App\Http\Requests\InvoiceMaterial;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MaterialCreateRequest extends FormRequest
+class InvoiceMaterialCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,17 @@ class MaterialCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:materials,name',
+            'excel_file' => 'required|mimes:xlsx,csv|max:4096', 
+            'company_name'=>'required|string|max:255'
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Material nomini kiritish majburiy.',
-            'name.string'   => 'Material nomi faqat matn bo‘lishi kerak.',
-            'name.max'      => 'Material nomi 255 ta belgidan oshmasligi kerak.',
-            'name.unique'   => 'Bunday nomdagi material allaqachon mavjud.',
+            'excel_file.required' => 'Excel fayl yuklash majburiy.',
+            'excel_file.mimes' => 'Fayl formati faqat .xlsx yoki .csv bo‘lishi kerak.',
+            'excel_file.max' => 'Fayl hajmi 4MB dan oshmasligi kerak.',
+            'company_name.required'=>'Input company name'
         ];
     }
 }

@@ -305,8 +305,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('materials*') || Request::is('stock*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link {{ Request::is('warehouse*') || Request::is('materials*') || Request::is('stock*') ? 'active' : '' }}">
+                        <li class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-warehouse"></i> <!-- Warehouse uchun ikonka -->
                                 <p>
                                     Warehouse
@@ -321,21 +321,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('materials.index')}}" class="nav-link {{ Request::is('materials') ? 'active' : '' }}">
+                                    <a href="{{route('invoice_materials.index')}}" class="nav-link {{ Request::is('invoice_materials') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-industry"></i> <!-- Homashyo (Materials) uchun ikonka -->
-                                        <p>Raw Materials</p>
+                                        <p>Invoice_Materials</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="" class="nav-link {{ Request::is('stock') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-pallet"></i> <!-- Stok boshqaruvi uchun ikonka -->
-                                        <p>Stock</p>
-                                    </a>
-                                </li>
+                                
                             </ul>
-                            
-                            
                         </li>
+                        
                         
                         
 

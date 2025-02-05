@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceMaterialController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PermissionController;
@@ -72,10 +74,9 @@ Route::middleware([Check::class])->group(function () {
         Route::put('/update/{warehouse}',[WarehouseController::class,'update'])->name('warehouse.update');
         Route::put('activity/{warehouse}',[WarehouseController::class,'activity'])->name('warehouse.activity');
     });
-    Route::prefix('materials')->group(function(){
-        Route::get('/',[MaterialController::class,'index'])->name('materials.index');
-        Route::post('/create',[MaterialController::class,'create'])->name('materials.create');
-        Route::put('/update/{material}',[MaterialController::class,'update'])->name('materials.update');
-        Route::delete('/delete/{material}',[MaterialController::class,'delete'])->name('materials.delete');
+    Route::prefix('invoice_materials')->group(function(){
+        Route::get('/',[InvoiceMaterialController::class,'index'])->name('invoice_materials.index');
+        Route::post('/create',[InvoiceMaterialController::class,'create'])->name('invoice_materials.create');
+        Route::get('/create-page',[InvoiceMaterialController::class,'page'])->name('invoice_materials.create-page');
     });
 });
