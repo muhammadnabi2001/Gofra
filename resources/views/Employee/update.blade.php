@@ -71,6 +71,25 @@
                                 <!-- Phone -->
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $employee->name ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $employee->email ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" name="password" id="password" class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="phone">Phone</label>
                                         <input type="text" name="phone" id="phone" class="form-control"
                                             value="{{ old('phone', $employee->phone) }}" required>

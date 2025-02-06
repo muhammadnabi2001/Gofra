@@ -29,7 +29,7 @@ class EmployeeController extends Controller
         $path = null;
         if ($request->hasFile('img')) {
             $extension = $request->img->getClientOriginalExtension();
-            $filename = date("Y-m-d") . '_' . time() . '.' . $extension;
+            $filename = now()->format("Y-m-d") . '_' . time() . '.' . $extension;
             $path = $request->img->storeAs('img_uploaded', $filename, 'public');
         }
 
@@ -37,11 +37,14 @@ class EmployeeController extends Controller
         $endTime = Carbon::parse($request->end_time);
 
         $dailyHours = $startTime->diffInHours($endTime);
-
         $monthlyHours = $dailyHours * 5 * 4;
+
         Employee::create([
             'user_id' => $request->user_id,
             'department_id' => $request->department_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : null,
             'phone' => $request->phone,
             'address' => $request->address,
             'img' => $path,
@@ -58,9 +61,9 @@ class EmployeeController extends Controller
             'daily_hours' => $dailyHours,
             'monthly_hours' => $monthlyHours,
         ]);
-
-        return redirect()->route('employee.index')->with('success', 'Employee successfully created.');
+        return redirect()->route('employee.index')->with('success','Employee created successfully');
     }
+
     public function updatepage(Employee $employee)
     {
         // dd($employee->id);
@@ -72,16 +75,16 @@ class EmployeeController extends Controller
     {
         // dd($employee->img);
         $employee->delete();
-        Storage::disk('public')->delete($employee->img); 
+        Storage::disk('public')->delete($employee->img);
         return redirect()->back()->with('success', 'Employee deleted successfully');
     }
-    public function update(EmployeeUpdateRequest $request,Employee $employee)
+    public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
-        $path = $employee->img; 
+        $path = $employee->img;
 
         if ($request->hasFile('img')) {
             if ($employee->img) {
-                Storage::disk('public')->delete($employee->img); 
+                Storage::disk('public')->delete($employee->img);
             }
 
             $extension = $request->img->getClientOriginalExtension();
@@ -99,6 +102,9 @@ class EmployeeController extends Controller
         $employee->update([
             'user_id' => $request->user_id,
             'department_id' => $request->department_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : null,
             'phone' => $request->phone,
             'address' => $request->address,
             'img' => $path,

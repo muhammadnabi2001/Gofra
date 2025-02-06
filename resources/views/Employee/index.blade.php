@@ -54,7 +54,8 @@
                                         <tr>
                                             <td class="text-center">{{ ($employees->currentPage() - 1) * $employees->perPage() + $loop->iteration }}</td>
 
-                                            <td class="text-center">{{ $employee->user->name }}</td>
+                                            <td class="text-center">{{ optional($employee->user)->name ?? $employee->name }}</td>
+
                                             <td class="text-center">{{ $employee->phone }}</td>
                                             <td class="text-center">{{ $employee->address }}</td>
                                             <td class="text-center">{{ $employee->department->name }}</td>

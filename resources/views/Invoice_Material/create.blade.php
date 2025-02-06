@@ -52,15 +52,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="transfer_type" class="form-label"><strong>Select Transfer Type</strong></label>
-                            <select name="transfer_type" id="transfer_type" class="form-control" required>
-                                <option value="" disabled selected>-- Select Transfer Type --</option>
-                                <option value="import">Import (From Supplier)</option>
-                                <option value="transfer">Transfer (From Another Warehouse)</option>
-                                <option value="internal_transfer">Internal Transfer (Between Own Warehouses)</option>
-                            </select>
-                        </div>
+                        
                         <button type="submit" class="btn btn-success mt-3">
                             <i class="fas fa-upload"></i> Upload and Import
                         </button>

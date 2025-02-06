@@ -22,23 +22,29 @@ class EmployeeCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id',
             'department_id' => 'required|exists:departments,id',
+            'name' => request()->user_id ? 'nullable' : 'required|string|max:255',
+            'email' => request()->user_id ? 'nullable' : 'required|email|unique:employees,email',
+            'password' => request()->user_id ? 'nullable' : 'required|string|min:6',
             'phone' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'img' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'address' => 'nullable|string|max:255',
+            'img' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
+            'daily_hours' => 'nullable|numeric|min:0',
+            'monthly_hours' => 'nullable|numeric|min:0',
             'work_schedule' => 'required|in:full_time,part_time,shift',
             'salary_type' => 'required|in:fixed,hourly,per_task',
             'salary' => 'nullable|numeric|min:0',
-            'hourly_rate' => 'nullable|numeric|min:0',
+            'rate' => 'nullable|numeric|min:0',
             'task_rate' => 'nullable|numeric|min:0',
             'advance' => 'nullable|numeric|min:0',
             'fine' => 'nullable|numeric|min:0',
             'bonus' => 'nullable|numeric|min:0',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_time' => 'nullable|date_format:H:i',
         ];
     }
+
     public function messages()
     {
         return [

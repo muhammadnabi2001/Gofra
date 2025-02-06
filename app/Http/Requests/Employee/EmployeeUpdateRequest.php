@@ -24,6 +24,9 @@ class EmployeeUpdateRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'department_id' => 'required|exists:departments,id',
+            'name' => request()->user_id ? 'nullable' : 'required|string|max:255',
+            'email' => request()->user_id ? 'nullable|email|unique:employees,email,' . request()->user_id : 'required|email|unique:employees,email',
+            'password' => request()->user_id ? 'nullable' : 'required|string|min:6',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'img' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
@@ -52,6 +55,7 @@ class EmployeeUpdateRequest extends FormRequest
             'address.required' => 'Manzil kiritilishi shart.',
             'address.string' => 'Manzil matn shaklida bo‘lishi kerak.',
             'address.max' => 'Manzil 255 ta belgidan oshmasligi kerak.',
+            'img.required' => 'Rasm yuklanishi shart.',
             'img.image' => 'Fayl rasm formatida bo‘lishi kerak.',
             'img.mimes' => 'Faqatgina jpeg, jpg, png yoki gif formatdagi rasm yuklash mumkin.',
             'img.max' => 'Rasm hajmi 2MB dan oshmasligi kerak.',
