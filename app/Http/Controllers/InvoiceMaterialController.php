@@ -101,6 +101,10 @@ class InvoiceMaterialController extends Controller
         //         ]);
         //     }
         // }
-
+        
+    }
+    public function show(Invoice $invoice_material)
+    {
+        return view('Invoice_Material.show',['invoice'=>$invoice_material]);
     }
 }

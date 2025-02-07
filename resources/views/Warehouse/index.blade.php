@@ -88,6 +88,7 @@
                                     <th class="text-center">#</th>
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Status</th>
+                                    <th class="text-center">Materials</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -106,6 +107,12 @@
                                                     {{ $warehouse->status == 1 ? 'Active' : 'Inactive' }}
                                                 </button>
                                             </form>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{route('warehouse.materials',$warehouse->id)}}" class="btn btn-warning">
+                                                <i class="fas fa-box-open"></i> 
+                                            </a>
+                                            
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$warehouse->id}}">

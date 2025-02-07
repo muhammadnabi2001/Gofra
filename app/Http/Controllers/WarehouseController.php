@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Warehouse\ExportMaterialRequest;
 use App\Http\Requests\Warehouse\WarehouseCreateRequest;
 use App\Http\Requests\Warehouse\WarehouseUpdateRequest;
+use App\Models\History;
 use App\Models\User;
 use App\Models\Warehouse;
+use App\Models\WarehouseValue;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
@@ -52,5 +55,64 @@ class WarehouseController extends Controller
         }
         $warehouse->save();
         return redirect()->back()->with('success','Warehouse status updated successfully');
+    }
+    public function materialpage(Warehouse $warehouse)
+    {
+        $WarehouseValue=WarehouseValue::where('warehouse_id',$warehouse->id)->get();
+        $warehouses=Warehouse::where('id','!=',$warehouse->id)->get();
+        return view('Warehouse.warehouse_materials',['WarehouseValue'=>$WarehouseValue,'warehouses'=>$warehouses,'id'=>$warehouse->id]);
+    }
+    public function export(ExportMaterialRequest $request,$warehouse_id)
+    {
+
+        $material_id = $request->input('material_id');
+        $to_id = $request->input('to_id');
+        $quantity = $request->input('quantity');
+        $sourceWarehouse = WarehouseValue::where('warehouse_id', $warehouse_id)
+            ->where('product_id', $material_id)
+            ->first();
+            if (!$sourceWarehouse || $sourceWarehouse->value < $quantity) {
+                return redirect()->back()->with('success',"ishlamiyapti");
+            }
+            
+            $sourceWarehouse->value -= $quantity;
+            $sourceWarehouse->save();
+            
+        $targetWarehouse = WarehouseValue::where('warehouse_id', $to_id)
+            ->where('product_id', $material_id)
+            ->first();
+
+        if ($targetWarehouse) {
+            $targetWarehouse->value += $quantity;
+            $targetWarehouse->save();
+        } else {
+            WarehouseValue::create([
+                'warehouse_id' => $to_id,
+                'product_id' => $material_id,
+                'value' => $quantity,
+            ]);
+        }
+
+        History::create([
+            'type' => 2,
+            'material_id' => $material_id,
+            'quantity' => $quantity,
+            'previous_value' => $sourceWarehouse->value + $quantity,
+            'current_value' => $sourceWarehouse->value,
+            'from_id' => $warehouse_id,
+            'to_id' => $to_id
+        ]);
+
+        History::create([
+            'type' => 2,
+            'material_id' => $material_id,
+            'quantity' => $quantity,
+            'previous_value' => $targetWarehouse ? $targetWarehouse->value - $quantity : 0,
+            'current_value' => $targetWarehouse ? $targetWarehouse->value : $quantity,
+            'from_id' => $warehouse_id,
+            'to_id' => $to_id
+        ]);
+
+        return redirect()->back()->with('success',"Materail exported successfully");
     }
 }

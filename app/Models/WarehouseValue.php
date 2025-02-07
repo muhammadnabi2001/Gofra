@@ -11,4 +11,8 @@ class WarehouseValue extends Model
         'product_id',
         'value'
     ];
+    public function material()
+    {
+        return $this->belongsTo(Material::class, 'product_id');  // product_id ishlatiladi
+    }
 }

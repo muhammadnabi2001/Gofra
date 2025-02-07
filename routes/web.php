@@ -69,14 +69,17 @@ Route::middleware([Check::class])->group(function () {
     });
     Route::prefix('warehouse')->group(function() {
         Route::get('/',[WarehouseController::class,'index'])->name('warehouse.index');
+        Route::get('/materials/{warehouse}',[WarehouseController::class,'materialpage'])->name('warehouse.materials');
         Route::post('/create',[WarehouseController::class,'create'])->name('warehouse.create');
         Route::delete('/delete/{warehouse}',[WarehouseController::class,'delete'])->name('warehouse.delete');
         Route::put('/update/{warehouse}',[WarehouseController::class,'update'])->name('warehouse.update');
-        Route::put('activity/{warehouse}',[WarehouseController::class,'activity'])->name('warehouse.activity');
+        Route::put('/activity/{warehouse}',[WarehouseController::class,'activity'])->name('warehouse.activity');
+        Route::post('/transfer/{warehouse_id}',[WarehouseController::class,'export'])->name('warehouse.transfer');
     });
     Route::prefix('invoice_materials')->group(function(){
         Route::get('/',[InvoiceMaterialController::class,'index'])->name('invoice_materials.index');
         Route::post('/create',[InvoiceMaterialController::class,'create'])->name('invoice_materials.create');
         Route::get('/create-page',[InvoiceMaterialController::class,'page'])->name('invoice_materials.create-page');
+        Route::get('/detail/{invoice_material}',[InvoiceMaterialController::class,'show'])->name('invoice_materials.detail');
     });
 });

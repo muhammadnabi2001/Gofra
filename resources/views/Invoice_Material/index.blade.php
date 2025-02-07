@@ -52,40 +52,14 @@
                                     <tr>
                                         <td class="text-center">{{ ($invoices->currentPage() - 1) * $invoices->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $invoice->company_name }}</td>
-                                        <td class="text-center">{{ $invoice->date }}</td>
+                                        <td class="text-center">{{ $invoice->created_at->format('d M Y') }}</td>
                                         <td class="text-center">{{ $invoice->text }}</td>
                                         <td class="text-center">
-                                            @if($invoice->invoiceMaterials->count() > 0)
-                                                <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#invoiceMaterialsModal{{ $invoice->id }}">
-                                                    <i class="fas fa-cogs"></i> View Materials
-                                                </button>
-                                        
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="invoiceMaterialsModal{{ $invoice->id }}" tabindex="-1" aria-labelledby="invoiceMaterialsModalLabel{{ $invoice->id }}" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="invoiceMaterialsModalLabel{{ $invoice->id }}">Invoice Materials</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <ul class="list-group">
-                                                                    @foreach ($invoice->invoiceMaterials as $material)
-                                                                        <li class="list-group-item">
-                                                                            {{ $material->material->name }} - {{ $material->quantity }} {{ $material->unit }} at {{ $material->price }} each
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                No materials found
-                                            @endif
+                                            <a href="{{route('invoice_materials.detail',$invoice->id)}}" class="btn btn-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                              </svg></a>
+                                            
                                         </td>
                                         
                                         
