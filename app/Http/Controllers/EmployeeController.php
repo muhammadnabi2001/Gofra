@@ -6,6 +6,7 @@ use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeUpdateRequest;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\SalaryType;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class EmployeeController extends Controller
     {
         $departments = Department::all();
         $users = User::all();
-        return view('Employee.create', ['departments' => $departments, 'users' => $users]);
+        $salarytype=SalaryType::all();
+        return view('Employee.create', ['departments' => $departments, 'users' => $users,'salarytype'=>$salarytype]);
     }
     public function create(EmployeeCreateRequest $request)
     {
@@ -69,7 +71,8 @@ class EmployeeController extends Controller
         // dd($employee->id);
         $departments = Department::all();
         $users = User::all();
-        return view('Employee.update', ['employee' => $employee, 'users' => $users, 'departments' => $departments]);
+        $salarytype=SalaryType::all();
+        return view('Employee.update', ['employee' => $employee, 'users' => $users, 'departments' => $departments,'salarytype'=>$salarytype]);
     }
     public function delete(Employee $employee)
     {
@@ -80,6 +83,7 @@ class EmployeeController extends Controller
     }
     public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
+        // dd($request->salary_type);
         $path = $employee->img;
 
         if ($request->hasFile('img')) {

@@ -30,7 +30,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h3 class="card-title"><i class="fas fa-warehouse"></i>{{ $id }} - Materials</h3>
+                        <h3 class="card-title"><i class="fas fa-warehouse"></i>- Materials</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -39,6 +39,7 @@
                                     <tr>
                                         <th>Material Name</th>
                                         <th>Available Quantity</th>
+                                        <th>Unit</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -49,6 +50,10 @@
                                             <td>
                                                 <span class="badge bg-info">{{ number_format($item->value) }}</span>
                                             </td>
+                                            <td class="text-center">
+                                                {{ optional($item->material?->invoiceMaterials->first())->unit ?? 'No Unit' }}
+                                            </td>
+                                            
                                             <td>
                                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#modal-{{ $item->id }}">
@@ -111,5 +116,9 @@
             </div>
         </div>
     </div>
+    <a href="{{route('warehouse.index')}}" class="btn btn-dark">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    
     </div>
 @endsection

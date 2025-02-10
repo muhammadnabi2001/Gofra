@@ -112,7 +112,7 @@
                                 
 
                                 <!-- Salary Type -->
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="salary_type">Salary Type</label>
                                         <select name="salary_type" id="salary_type" class="form-control">
@@ -122,7 +122,19 @@
                                             <option value="per_task">Per Task</option>
                                         </select>
                                     </div>
+                                </div> --}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="salary_type">Salary Type</label>
+                                        <select name="salary_type" id="salary_type" class="form-control">
+                                            <option value="" selected disabled>-- Select Salary Type --</option>
+                                            @foreach ($salarytype as $value)
+                                                <option value="{{ $value->name }}">{{ $value->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
+                                
                                 
 
                                 <!-- Salary -->

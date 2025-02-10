@@ -45,6 +45,7 @@
                                         <th class="text-center">Tel</th>
                                         <th class="text-center">Adress</th>
                                         <th class="text-center">Department</th>
+                                        <th class="text-center">Salary Type</th>
                                         <th class="text-center">Img</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -59,6 +60,7 @@
                                             <td class="text-center">{{ $employee->phone }}</td>
                                             <td class="text-center">{{ $employee->address }}</td>
                                             <td class="text-center">{{ $employee->department->name }}</td>
+                                            <td class="text-center">{{ $employee->salary_type }}</td>
                                             </td>
                                             <td class="text-center">
                                                 <img src="{{ asset('storage/' . $employee->img) }}" alt="{{$employee->img}}"

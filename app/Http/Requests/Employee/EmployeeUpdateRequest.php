@@ -24,14 +24,16 @@ class EmployeeUpdateRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'department_id' => 'required|exists:departments,id',
-            'name' => request()->user_id ? 'nullable' : 'required|string|max:255',
-            'email' => request()->user_id ? 'nullable|email|unique:employees,email,' . request()->user_id : 'required|email|unique:employees,email',
-            'password' => request()->user_id ? 'nullable' : 'required|string|min:6',
+            'name' => request()->route('employee') ? 'nullable' : 'required|string|max:255',
+            'email' => request()->route('employee') 
+                ? 'nullable|email|unique:employees,email,' . request()->route('employee')->id 
+                : 'required|email|unique:employees,email',
+            'password' => request()->route('employee') ? 'nullable' : 'required|string|min:6',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'img' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
             'work_schedule' => 'required|in:full_time,part_time,shift',
-            'salary_type' => 'required|in:fixed,hourly,per_task',
+            'salary_type' => 'required',
             'salary' => 'nullable|numeric|min:0',
             'hourly_rate' => 'nullable|numeric|min:0',
             'task_rate' => 'nullable|numeric|min:0',
@@ -41,6 +43,7 @@ class EmployeeUpdateRequest extends FormRequest
             'start_time' => 'nullable|date_format:H:i',
             'end_time' => 'nullable|date_format:H:i',
         ];
+        
     }
     public function messages()
     {

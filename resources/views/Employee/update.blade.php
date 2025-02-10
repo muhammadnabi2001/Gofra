@@ -128,17 +128,20 @@
                                     <div class="form-group">
                                         <label for="salary_type">Salary Type</label>
                                         <select name="salary_type" id="salary_type" class="form-control">
-                                            <option value="" disabled>-- Select Salary Type --</option>
-                                            <option value="fixed"
-                                                {{ $employee->salary_type == 'fixed' ? 'selected' : '' }}>Fixed</option>
-                                            <option value="hourly"
-                                                {{ $employee->salary_type == 'hourly' ? 'selected' : '' }}>Hourly</option>
-                                            <option value="per_task"
-                                                {{ $employee->salary_type == 'per_task' ? 'selected' : '' }}>Per Task
+                                            <option value="" disabled {{ empty($employee->salary_type) ? 'selected' : '' }}>
+                                                -- Select Salary Type --
                                             </option>
+                                            @foreach ($salarytype as $value)
+                                                <option value="{{ $value->name }}" {{ isset($employee) && $employee->salary_type == $value->name ? 'selected' : '' }}>
+                                                    {{ $value->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                
+                                
+                                
 
                                 <!-- Salary -->
                                 <div class="col-md-6">

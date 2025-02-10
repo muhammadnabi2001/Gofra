@@ -13,6 +13,7 @@ use App\Http\Controllers\SalaryTypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
+use App\Livewire\ProductComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -81,5 +82,8 @@ Route::middleware([Check::class])->group(function () {
         Route::post('/create',[InvoiceMaterialController::class,'create'])->name('invoice_materials.create');
         Route::get('/create-page',[InvoiceMaterialController::class,'page'])->name('invoice_materials.create-page');
         Route::get('/detail/{invoice_material}',[InvoiceMaterialController::class,'show'])->name('invoice_materials.detail');
+    });
+    Route::prefix('products')->group(function(){
+        Route::get('/',ProductComponent::class)->name('products');
     });
 });

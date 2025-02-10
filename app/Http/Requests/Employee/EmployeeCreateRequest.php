@@ -35,7 +35,7 @@ class EmployeeCreateRequest extends FormRequest
             'daily_hours' => 'nullable|numeric|min:0',
             'monthly_hours' => 'nullable|numeric|min:0',
             'work_schedule' => 'required|in:full_time,part_time,shift',
-            'salary_type' => 'required|in:fixed,hourly,per_task',
+            'salary_type' => 'required',
             'salary' => 'nullable|numeric|min:0',
             'rate' => 'nullable|numeric|min:0',
             'task_rate' => 'nullable|numeric|min:0',

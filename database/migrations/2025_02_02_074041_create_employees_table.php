@@ -29,7 +29,7 @@ return new class extends Migration
             $table->float('monthly_hours')->default(0);
 
             $table->enum('work_schedule', ['full_time', 'part_time', 'shift']);
-            $table->enum('salary_type', ['fixed', 'hourly', 'per_task']);
+            $table->string('salary_type');
 
             $table->double('salary')->nullable();
             $table->double('rate')->nullable();
