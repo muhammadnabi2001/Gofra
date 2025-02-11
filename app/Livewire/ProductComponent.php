@@ -16,7 +16,13 @@ class ProductComponent extends Component
     public $image;
     public $materials = [];
     public $allMaterials = [];
-
+    public $showModal = false;
+    public $products;
+    public $editName, $editImage;
+    public $productId;
+    public $showeditModal = false;
+    public $currentImage;
+    public $editMaterials = [];
     public function mount()
     {
         $this->allMaterials = Material::all();
@@ -26,18 +32,18 @@ class ProductComponent extends Component
     public function addMaterial()
     {
         $this->materials[] = ['material' => '', 'quantity' => 1];
-        $this->dispatch('openModal');
     }
 
     public function removeMaterial($index)
     {
         unset($this->materials[$index]);
         $this->materials = array_values($this->materials);
-        $this->dispatch('openModal');
     }
 
     public function saveProduct()
     {
+        $this->showModal = false;
+
         $this->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
@@ -79,14 +85,98 @@ class ProductComponent extends Component
         $this->reset(['name', 'image', 'materials']);
         $this->materials = [['material' => '', 'quantity' => 1]];
 
-        session()->flash('message', 'Product successfully created!');
-        $this->dispatch('closeModal');
+        session()->flash('success', 'Product successfully created!');
+    }
+    // app/Http/Livewire/ProductComponent.php
+
+    public function editProduct($productId)
+    {
+        // Modal oynasini ko'rsatish
+        $this->productId=$productId;
+        $product=Product::findOrFail($productId);
+        $this->showeditModal = true;
+
+        // Mahsulot nomi va rasmi
+        $this->editName = $product->name;
+        $this->editImage = $product->img;
+
+        // Materiallar (ingredients) tahrirlash uchun
+        $this->editMaterials = $product->ingredients->map(function ($ingredient) {
+            return [
+                'material' => $ingredient->material->id,
+                'quantity' => $ingredient->value,
+                'unit' => $ingredient->material->unit,
+            ];
+        })->toArray();
+    }
+    public function updateProduct(Product $product)
+    {
+        $product=Product::findOrFail($this->productId);
+        $this->showeditModal = false;
+
+    // Ma'lumotlarni tekshirish
+    $this->validate([
+        'editName' => 'required|string|max:255',
+        'editImage' => 'nullable|max:2048',
+        'editMaterials.*.material' => 'required|exists:materials,id',
+        'editMaterials.*.quantity' => 'required|numeric|min:1',
+    ]);
+
+    // Rasmni saqlash
+    $imagePath = null;
+    if ($this->editImage) {
+        $extension = $this->editImage->getClientOriginalExtension();
+        $filename = now()->format("Y-m-d") . '_' . time() . '.' . $extension;
+        $imagePath = $this->editImage->storeAs('img_uploaded', $filename, 'public');
     }
 
+    // Mahsulotni yangilash
+    $product->name = $this->editName;
+    if ($imagePath) {
+        $product->img = $imagePath;
+    }
+    $product->save();
 
+    // Materiallarni yangilash
+    foreach ($this->editMaterials as $material) {
+        $materialModel = Material::find($material['material']);
+        $invoiceMaterial = $materialModel->invoiceMaterials->first();
 
+        if ($invoiceMaterial) {
+            $unit = $invoiceMaterial->unit;
+        } else {
+            $unit = 'No Unit';
+        }
+
+        // Agar ingredient mavjud bo'lsa, yangilash
+        $existingIngredient = ProductIngredient::where('product_id', $product->id)
+                                                ->where('material_id', $material['material'])
+                                                ->first();
+
+        if ($existingIngredient) {
+            $existingIngredient->value = $material['quantity'];
+            $existingIngredient->unit = $unit;
+            $existingIngredient->save();
+        } else {
+            // Yangi ingredient qo'shish
+            ProductIngredient::create([
+                'product_id' => $product->id,
+                'material_id' => $material['material'],
+                'value' => $material['quantity'],
+                'unit' => $unit,
+            ]);
+        }
+    }
+
+    // Formni tozalash
+    $this->reset(['editName', 'editImage', 'editMaterials']);
+    $this->editMaterials = [['material' => '', 'quantity' => 1]];
+
+    session()->flash('success', 'Product successfully updated!');
+    }
     public function render()
     {
+        $this->products = Product::all();
         return view('livewire.product-component');
     }
 }

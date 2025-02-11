@@ -23,9 +23,10 @@
     </div>
     <div class="row m-3">
         <div class="col-12">
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addProductModal">
+            <button type="button" class="btn btn-primary btn-sm" wire:click="$set('showModal', true)">
                 + Add Product
             </button>
+           
         </div>
     </div>
     <div class="card">
@@ -39,32 +40,106 @@
                     <tr>
                         <th>#</th>
                         <th>Product Name</th>
+                        <th>Product ing</th>
                         <th>Product Image</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($products as $product )
                     <tr>
-                        <td>1</td>
-                        <td>Product 1</td>
-                        <td><img src="path_to_image/product1.jpg" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                        <td>{{$product->id}}</td>
+                        <td>{{$product->name}}</td>
                         <td>
-                            <button class="btn btn-info btn-sm">View</button>
-                            <button class="btn btn-warning btn-sm">Edit</button>
-                            <button class="btn btn-danger btn-sm">Delete</button>
+                            @foreach($product->ingredients as $ingredient)
+                                <p>{{ $ingredient->material->name}}-{{$ingredient->value}}</p>
+                            @endforeach
+                        </td>
+                        
+                        <td>
+                            @if($product->img)
+                                <img src="{{ asset('storage/' . $product->img) }}" alt="Product Image" width="100" height="100">
+                            @else
+                                No image available
+                            @endif
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" wire:click="editProduct({{$product->id}})">
+                                Edit
+                            </button>
+                            <div class="modal fade {{ $showeditModal ? 'show' : '' }}" id="addProductModal" tabindex="-1" role="dialog" style="{{ $showeditModal ? 'display: block;' : 'display: none;' }}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Add New Product</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form wire:submit.prevent="updateProduct({{$product->id}})">
+                                                <div class="form-group">
+                                                    <label>Product Name</label>
+                                                    <input type="text" class="form-control" wire:model="editName">
+                                                </div>
+                        
+                                                <div class="form-group">
+                                                    <label>Product Image</label>
+                                                    <input type="file" class="form-control" wire:model="editImage">
+                                                    <img src="{{ asset('storage/' . $editImage) }}" alt="Product Image" width="100" height="100">
+                                                </div>
+                                                <label>Materials</label>
+                                                <div>
+                                                    <!-- Edit materiallar uchun foreach -->
+                                                    @foreach($editMaterials as $index => $material)
+                                                        <div class="input-group mb-2">
+                                                            <select class="form-control" wire:model="editMaterials.{{ $index }}.material">
+                                                                <option value="">Materialni tanlang</option>
+                                                                @foreach($allMaterials as $mat)
+                                                                    <option value="{{ $mat->id }}" 
+                                                                        @if($mat->id == $material['material']) selected @endif>
+                                                                        {{ $mat->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                
+                                                            <input type="number" class="form-control ml-2" wire:model="editMaterials.{{ $index }}.quantity" 
+                                                                   value="{{ $material['quantity'] }}" placeholder="Miqdor">
+                                                
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-danger" wire:click="removeMaterial({{ $index }})">&times;</button>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                
+                                                <!-- Yangi material qo'shish -->
+                                                <button type="button" class="btn btn-success btn-sm mt-2" wire:click="addMaterial">+ Add Material</button>
+                                                
+
+                                                <!-- Tugmalarni bitta chiziqda joylashtirish uchun flex container -->
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <!-- Save Product tugmasi -->
+                                                    <button type="button" class="btn btn-secondary" wire:click="$set('showeditModal', false)">Close Modal</button>
+                                                    <button type="submit" class="btn btn-primary">Save Product</button>
+                        
+                                                    <!-- Close Modal tugmasi -->
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="addProductModal" tabindex="-1" role="dialog">
+    <div class="modal fade {{ $showModal ? 'show' : '' }}" id="addProductModal" tabindex="-1" role="dialog" style="{{ $showModal ? 'display: block;' : 'display: none;' }}">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add New Product</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form wire:submit.prevent="saveProduct">
@@ -98,12 +173,21 @@
                         </div>
 
                         <button type="button" class="btn btn-success btn-sm mt-2" wire:click="addMaterial">+ Add Material</button>
-                        <button type="submit" class="btn btn-primary mt-3">Save Product</button>
+
+                        <!-- Tugmalarni bitta chiziqda joylashtirish uchun flex container -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Save Product tugmasi -->
+                            <button type="button" class="btn btn-secondary" wire:click="$set('showModal', false)">Close Modal</button>
+                            <button type="submit" class="btn btn-primary">Save Product</button>
+
+                            <!-- Close Modal tugmasi -->
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 @push('scripts')
@@ -116,4 +200,5 @@
         $('#addProductModal').modal('hide');
     });
 </script>
+
 @endpush
