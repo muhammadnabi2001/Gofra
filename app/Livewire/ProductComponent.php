@@ -32,12 +32,15 @@ class ProductComponent extends Component
     public function addMaterial()
     {
         $this->materials[] = ['material' => '', 'quantity' => 1];
+        $this->editMaterials[] = ['material' => '', 'quantity' => 1];
     }
 
     public function removeMaterial($index)
     {
         unset($this->materials[$index]);
         $this->materials = array_values($this->materials);
+        unset($this->editMaterials[$index]);
+        $this->editMaterials = array_values($this->editMaterials);
     }
 
     public function saveProduct()
@@ -92,8 +95,8 @@ class ProductComponent extends Component
     public function editProduct($productId)
     {
         // Modal oynasini ko'rsatish
-        $this->productId=$productId;
-        $product=Product::findOrFail($productId);
+        $this->productId = $productId;
+        $product = Product::findOrFail($productId);
         $this->showeditModal = true;
 
         // Mahsulot nomi va rasmi
@@ -111,54 +114,37 @@ class ProductComponent extends Component
     }
     public function updateProduct(Product $product)
     {
-        $product=Product::findOrFail($this->productId);
+        $product = Product::findOrFail($this->productId);
         $this->showeditModal = false;
 
-    // Ma'lumotlarni tekshirish
-    $this->validate([
-        'editName' => 'required|string|max:255',
-        'editImage' => 'nullable|max:2048',
-        'editMaterials.*.material' => 'required|exists:materials,id',
-        'editMaterials.*.quantity' => 'required|numeric|min:1',
-    ]);
+        $this->validate([
+            'editName' => 'required|string|max:255',
+            'image' => 'nullable|max:2048',
+            'editMaterials.*.material' => 'required|exists:materials,id',
+            'editMaterials.*.quantity' => 'required|numeric|min:1',
+        ]);
 
-    // Rasmni saqlash
-    $imagePath = null;
-    if ($this->editImage) {
-        $extension = $this->editImage->getClientOriginalExtension();
-        $filename = now()->format("Y-m-d") . '_' . time() . '.' . $extension;
-        $imagePath = $this->editImage->storeAs('img_uploaded', $filename, 'public');
-    }
-
-    // Mahsulotni yangilash
-    $product->name = $this->editName;
-    if ($imagePath) {
-        $product->img = $imagePath;
-    }
-    $product->save();
-
-    // Materiallarni yangilash
-    foreach ($this->editMaterials as $material) {
-        $materialModel = Material::find($material['material']);
-        $invoiceMaterial = $materialModel->invoiceMaterials->first();
-
-        if ($invoiceMaterial) {
-            $unit = $invoiceMaterial->unit;
-        } else {
-            $unit = 'No Unit';
+        $imagePath = null;
+        if ($this->image) {
+            $extension = $this->image->getClientOriginalExtension();
+            $filename = now()->format("Y-m-d") . '_' . time() . '.' . $extension;
+            $imagePath = $this->image->storeAs('img_uploaded', $filename, 'public');
         }
 
-        // Agar ingredient mavjud bo'lsa, yangilash
-        $existingIngredient = ProductIngredient::where('product_id', $product->id)
-                                                ->where('material_id', $material['material'])
-                                                ->first();
+        $product->name = $this->editName;
+        if ($imagePath) {
+            $product->img = $imagePath;
+        }
+        $product->save();
 
-        if ($existingIngredient) {
-            $existingIngredient->value = $material['quantity'];
-            $existingIngredient->unit = $unit;
-            $existingIngredient->save();
-        } else {
-            // Yangi ingredient qo'shish
+        ProductIngredient::where('product_id', $product->id)->delete();
+
+        foreach ($this->editMaterials as $material) {
+            $materialModel = Material::find($material['material']);
+            $invoiceMaterial = $materialModel->invoiceMaterials->first();
+
+            $unit = $invoiceMaterial ? $invoiceMaterial->unit : 'No Unit';
+
             ProductIngredient::create([
                 'product_id' => $product->id,
                 'material_id' => $material['material'],
@@ -166,14 +152,14 @@ class ProductComponent extends Component
                 'unit' => $unit,
             ]);
         }
+
+        $this->reset(['editName', 'editImage', 'editMaterials']);
+        $this->editMaterials = [['material' => '', 'quantity' => 1]];
+
+        session()->flash('success', 'Product successfully updated!');
     }
 
-    // Formni tozalash
-    $this->reset(['editName', 'editImage', 'editMaterials']);
-    $this->editMaterials = [['material' => '', 'quantity' => 1]];
 
-    session()->flash('success', 'Product successfully updated!');
-    }
     public function render()
     {
         $this->products = Product::all();

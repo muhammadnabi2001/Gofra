@@ -82,12 +82,11 @@
                         
                                                 <div class="form-group">
                                                     <label>Product Image</label>
-                                                    <input type="file" class="form-control" wire:model="editImage">
+                                                    <input type="file" class="form-control" wire:model="image">
                                                     <img src="{{ asset('storage/' . $editImage) }}" alt="Product Image" width="100" height="100">
                                                 </div>
                                                 <label>Materials</label>
                                                 <div>
-                                                    <!-- Edit materiallar uchun foreach -->
                                                     @foreach($editMaterials as $index => $material)
                                                         <div class="input-group mb-2">
                                                             <select class="form-control" wire:model="editMaterials.{{ $index }}.material">
@@ -99,20 +98,16 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
-                                                
                                                             <input type="number" class="form-control ml-2" wire:model="editMaterials.{{ $index }}.quantity" 
                                                                    value="{{ $material['quantity'] }}" placeholder="Miqdor">
-                                                
                                                             <div class="input-group-append">
                                                                 <button type="button" class="btn btn-danger" wire:click="removeMaterial({{ $index }})">&times;</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                
-                                                <!-- Yangi material qo'shish -->
+                        
                                                 <button type="button" class="btn btn-success btn-sm mt-2" wire:click="addMaterial">+ Add Material</button>
-                                                
 
                                                 <!-- Tugmalarni bitta chiziqda joylashtirish uchun flex container -->
                                                 <div class="d-flex justify-content-between mt-3">

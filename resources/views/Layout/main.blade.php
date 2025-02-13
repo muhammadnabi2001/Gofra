@@ -276,38 +276,46 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
+                        <li
+                            class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-tie"></i> <!-- Hodimlar uchun ikonka -->
                                 <p>
-                                    Personnel 
+                                    Personnel
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('department.index')}}" class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
+                                    <a href="{{ route('department.index') }}"
+                                        class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-building"></i>
                                         <p>Departments</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('employee.index')}}" class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
+                                    <a href="{{ route('employee.index') }}"
+                                        class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-user"></i> <!-- Employee uchun ikonka -->
                                         <p>Employees</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('salarytype.index')}}" class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-money-bill-wave"></i> <!-- Salary type uchun ikonka -->
+                                    <a href="{{ route('salarytype.index') }}"
+                                        class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-money-bill-wave"></i>
+                                        <!-- Salary type uchun ikonka -->
                                         <p>Salary Types</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-warehouse"></i> <!-- Warehouse uchun ikonka -->
+                        <li
+                            class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-warehouse"></i>
                                 <p>
                                     Warehouse
                                     <i class="right fas fa-angle-left"></i>
@@ -315,24 +323,35 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('warehouse.index') }}" class="nav-link {{ Request::is('warehouse') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-clipboard-list"></i> <!-- Omborlar ro‘yxati uchun ikonka -->
+                                    <a href="{{ route('warehouse.index') }}"
+                                        class="nav-link {{ Request::is('warehouse') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-clipboard-list"></i>
                                         <p>All Warehouses</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('invoice_materials.index')}}" class="nav-link {{ Request::is('invoice_materials') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-industry"></i> <!-- Homashyo (Materials) uchun ikonka -->
-                                        <p>Invoice_Materials</p>
+                                    <a href="{{ route('invoice_materials.index') }}"
+                                        class="nav-link {{ Request::is('invoice_materials') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-industry"></i>
+                                        <p>Invoice Materials</p>
                                     </a>
                                 </li>
-                                
+                                <li class="nav-item">
+                                    <a href="{{ route('machines.index') }}"
+                                        class="nav-link {{ Request::is('machines') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>Machines</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('products.index') }}"
+                                        class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-box"></i>
+                                        <p>Products</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        
-                        
-                        
-
                         <li class="nav-item">
                             <a href="{{ route('login.logout') }}" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i> <!-- Logout uchun ikonka -->
@@ -341,18 +360,6 @@
                                 </p>
                             </a>
                         </li>
-
-
-
-
-
-
-
-
-
-
-
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -442,7 +449,7 @@
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('../../plugins/select2/js/select2.full.min.js') }}"></script>
-    
+
 </body>
 
 </html>

@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceMaterialController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionGroupController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\SalaryTypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
+use App\Livewire\ManufacturingComponent;
 use App\Livewire\ProductComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -84,6 +86,15 @@ Route::middleware([Check::class])->group(function () {
         Route::get('/detail/{invoice_material}',[InvoiceMaterialController::class,'show'])->name('invoice_materials.detail');
     });
     Route::prefix('products')->group(function(){
-        Route::get('/',ProductComponent::class)->name('products');
+        Route::get('/',ProductComponent::class)->name('products.index');
+    });
+    Route::prefix('machines')->group(function() {
+        Route::get('/',[MachineController::class,'index'])->name('machines.index');
+        Route::post('/create',[MachineController::class,'create'])->name('machines.create');
+        Route::put('/status/{machine}',[MachineController::class,'statusupdate'])->name('machines.status');
+        Route::put('/update/{machine}',[MachineController::class,'update'])->name('machines.update');
+    });
+    Route::prefix('manufacturing')->group(function(){
+        Route::get('/',ManufacturingComponent::class)->name('manufacturing.index');
     });
 });

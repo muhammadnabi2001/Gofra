@@ -48,7 +48,7 @@
                                 <!-- Role tanlash (Select2) -->
                                 <div class="mb-3">
                                     <label>Role ni tanlang</label>
-                                    <select class="form-control" data-placeholder="roleni tanlang" style="width: 100%;" name="role_id">
+                                    <select class="form-control" data-placeholder="roleni tanlang" style="" name="role_id">
                                         @foreach($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
