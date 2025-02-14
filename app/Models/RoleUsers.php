@@ -10,4 +10,5 @@ class RoleUsers extends Model
         'role_id',
         'user_id'
     ];
+    
 }

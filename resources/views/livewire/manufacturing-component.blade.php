@@ -67,7 +67,7 @@
                 </div>
                 <div class="modal-body">
                     <form wire:submit.prevent="saveProduction">
-                        <!-- Product Selection -->
+                       
                         <div class="form-group">
                             <label>Select Product</label>
                             <select class="form-control" wire:model="selectedProduct">
@@ -77,11 +77,10 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <!-- Product Count -->
                         <div class="form-group">
                             <label>Product Count</label>
-                            <input type="number" class="form-control" wire:model="productCount" min="1">
+                            <input type="number" class="form-control" wire:model="productCount" min="1" max="{{$maxCount}}">
                         </div>
 
                         <label>Machines & Users</label>
