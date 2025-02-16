@@ -16,6 +16,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
 use App\Livewire\ManufacturingComponent;
 use App\Livewire\ProductComponent;
+use App\Livewire\ProductionComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -96,5 +97,8 @@ Route::middleware([Check::class])->group(function () {
     });
     Route::prefix('manufacturing')->group(function(){
         Route::get('/',ManufacturingComponent::class)->name('manufacturing.index');
+    });
+    Route::prefix('productions')->group(function(){
+        Route::get('/',ProductionComponent::class)->name('productions.index');
     });
 });

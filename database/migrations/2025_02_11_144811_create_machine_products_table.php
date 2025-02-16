@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('total_count');
             $table->integer('waste_count');
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

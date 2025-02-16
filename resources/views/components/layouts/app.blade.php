@@ -269,39 +269,45 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
+                        <li
+                            class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-tie"></i> <!-- Hodimlar uchun ikonka -->
                                 <p>
-                                    Personnel 
+                                    Personnel
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('department.index')}}" class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
+                                    <a href="{{ route('department.index') }}"
+                                        class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-building"></i>
                                         <p>Departments</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('employee.index')}}" class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
+                                    <a href="{{ route('employee.index') }}"
+                                        class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-user"></i> <!-- Employee uchun ikonka -->
                                         <p>Employees</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('salarytype.index')}}" class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-money-bill-wave"></i> <!-- Salary type uchun ikonka -->
+                                    <a href="{{ route('salarytype.index') }}"
+                                        class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-money-bill-wave"></i>
+                                        <!-- Salary type uchun ikonka -->
                                         <p>Salary Types</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li
-                        class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'menu-open' : '' }}">
+                        class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'menu-open' : '' }}">
                         <a href="#"
-                            class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'active' : '' }}">
+                            class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-warehouse"></i>
                             <p>
                                 Warehouse
@@ -337,10 +343,26 @@
                                     <p>Products</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('manufacturing.index') }}"
+                                    class="nav-link {{ Request::is('manufacturing*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-industry"></i>
+                                    <p>Manufacturing</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('productions.index') }}"
+                                    class="nav-link {{ Request::is('productions*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-tools"></i>
+                                    <p>Productions</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
-                        
-                        
+                    
+
+
+
 
                         <li class="nav-item">
                             <a href="{{ route('login.logout') }}" class="nav-link">
@@ -370,7 +392,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        {{-- <div class="content-wrapper">
             <!-- Content Header (Page header) -->
 
             <!-- /.content-header -->
@@ -382,20 +404,20 @@
 
                     <!-- /.row -->
                     <!-- Main row -->
-                    <div class="row">
-                        <!-- Left col -->
+                    <div class="row"> --}}
+        <!-- Left col -->
 
-                        <!-- /.Left col -->
-                        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                        @yield('contents')
-                        {{$slot}}
-                        <!-- right col -->
-                    </div>
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+        @yield('contents')
+        {{ $slot }}
+        <!-- right col -->
+        {{-- </div>
                     <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
-        </div>
+        </div> --}}
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>

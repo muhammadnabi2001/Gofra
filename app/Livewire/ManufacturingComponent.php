@@ -62,12 +62,7 @@ class ManufacturingComponent extends Component
             'machines.*.user_id' => 'required',
         ]);
         $product = Product::findOrFail($this->selectedProduct);
-
-        // Skladdagi materiallarni olish
-        // $warehouse = WarehouseValue::where('warehouse_id', 1)->get();
-        $product = Product::findOrFail($this->selectedProduct);
-
-        // **Material yetarliligini tekshirish**
+        
         foreach ($product->ingredients as $ingredient) {
             $material = WarehouseValue::where('warehouse_id', 1)
                 ->where('product_id', $ingredient->material_id)
@@ -125,11 +120,11 @@ class ManufacturingComponent extends Component
         $this->resetForm();
     }
 
-    public function updatedSelectedProduct()
+    public function updatedSelectedProduct($selectedProduct)
     {
-        // dd($this->selectedProduct);
+        // dd($selectedProduct);
 
-        $product = Product::findOrFail($this->selectedProduct);
+        $product = Product::findOrFail($selectedProduct);
 
         $availableCounts = [];
 

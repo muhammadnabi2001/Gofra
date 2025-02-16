@@ -11,10 +11,15 @@ class MachineProduct extends Model
         'machine_id',
         'user_id',
         'total_count',
-        'waste_count'
+        'waste_count',
+        'status'
     ];
     public function manufacturing()
     {
         return $this->belongsTo(Manufacturing::class,'manufacturing_id');
+    }
+    public function machine()
+    {
+        return $this->belongsTo(Machine::class,'machine_id');
     }
 }

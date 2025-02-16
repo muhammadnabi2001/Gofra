@@ -1,5 +1,13 @@
 <div>
     <!-- Add Production Button -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
     <div class="m-3">
         <button type="button" class="btn btn-primary" wire:click="openModal">
             <i class="fas fa-plus"></i> Add Production
@@ -127,7 +135,12 @@
         </div>
     </div>
 </div>
-
+</div>
+<!-- /.row (main row) -->
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
 @push('scripts')
 <script>
     Livewire.on('openModal', () => {

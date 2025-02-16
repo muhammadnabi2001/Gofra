@@ -1,4 +1,17 @@
 <div>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="row">
     <div class="row">
         <div class="col-12">
             @if ($errors->any())
@@ -182,7 +195,12 @@
             </div>
         </div>
     </div>
-    
+</div>
+<!-- /.row (main row) -->
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
 </div>
 
 @push('scripts')

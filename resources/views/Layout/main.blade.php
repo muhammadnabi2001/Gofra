@@ -312,9 +312,9 @@
                             </ul>
                         </li>
                         <li
-                            class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'menu-open' : '' }}">
+                            class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'menu-open' : '' }}">
                             <a href="#"
-                                class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') ? 'active' : '' }}">
+                                class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-warehouse"></i>
                                 <p>
                                     Warehouse
@@ -350,8 +350,24 @@
                                         <p>Products</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('manufacturing.index') }}"
+                                        class="nav-link {{ Request::is('manufacturing*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-industry"></i>
+                                        <p>Manufacturing</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('productions.index') }}"
+                                        class="nav-link {{ Request::is('productions*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-tools"></i>
+                                        <p>Productions</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
+
+
                         <li class="nav-item">
                             <a href="{{ route('login.logout') }}" class="nav-link">
                                 <i class="nav-icon fas fa-sign-out-alt"></i> <!-- Logout uchun ikonka -->
