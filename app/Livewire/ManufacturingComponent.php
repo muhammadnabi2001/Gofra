@@ -16,6 +16,7 @@ use App\Models\WarehouseValue;
 class ManufacturingComponent extends Component
 {
     public $showModal = false;
+    public $isProductModalVisible = false;
     public $selectedProduct;
     public $productCount;
     public $machines = [];
@@ -25,6 +26,7 @@ class ManufacturingComponent extends Component
     public $allMachines;
     public $allUsers;
     public $maxCount;
+    public $detailproduct;
 
     public function mount()
     {
@@ -37,9 +39,16 @@ class ManufacturingComponent extends Component
 
         $this->machines[] = ['machine_id' => '', 'user_id' => ''];
     }
-   
 
 
+    public function openshowModal($productId) {
+        $this->isProductModalVisible=true;
+        $this->detailproduct=$this->products->find($productId);
+    }
+    public function closeshowModal()
+    {
+        $this->isProductModalVisible=false;
+    }
     public function addMachine()
     {
         $this->machines[] = ['machine_id' => '', 'user_id' => ''];
@@ -62,7 +71,7 @@ class ManufacturingComponent extends Component
             'machines.*.user_id' => 'required',
         ]);
         $product = Product::findOrFail($this->selectedProduct);
-        
+
         foreach ($product->ingredients as $ingredient) {
             $material = WarehouseValue::where('warehouse_id', 1)
                 ->where('product_id', $ingredient->material_id)
@@ -80,7 +89,7 @@ class ManufacturingComponent extends Component
         $manufacturing = Manufacturing::create([
             'product_id' => $this->selectedProduct,
             'total_count' => $this->productCount,
-            'produced_count' => $this->productCount,
+            'quality_count' => $this->productCount,
             'waste_count' => 0,
         ]);
 
@@ -106,7 +115,7 @@ class ManufacturingComponent extends Component
                     'previous_value' => $material->value,
                     'current_value' => $material->value - ($this->productCount * $ingredient->value),
                     'from_id' => $material->warehouse_id,
-                    'to_id' => $material->id,
+                    'to_id' => $this->selectedProduct,
                 ]);
                 $materialValue = $material->value - ($this->productCount * $ingredient->value);
 
@@ -165,7 +174,8 @@ class ManufacturingComponent extends Component
 
     public function render()
     {
-        $this->products = Manufacturing::all();
+        $this->products = Manufacturing::with('machineproducts')->get();
+
         return view('livewire.manufacturing-component');
     }
 }

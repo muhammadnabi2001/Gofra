@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
     @livewireStyles
 </head>
 
@@ -305,61 +307,87 @@
                             </ul>
                         </li>
                         <li
-                        class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'menu-open' : '' }}">
-                        <a href="#"
-                            class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-warehouse"></i>
-                            <p>
-                                Warehouse
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('warehouse.index') }}"
-                                    class="nav-link {{ Request::is('warehouse') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-clipboard-list"></i>
-                                    <p>All Warehouses</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('invoice_materials.index') }}"
-                                    class="nav-link {{ Request::is('invoice_materials') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-industry"></i>
-                                    <p>Invoice Materials</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('machines.index') }}"
-                                    class="nav-link {{ Request::is('machines') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-cogs"></i>
-                                    <p>Machines</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('products.index') }}"
-                                    class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-box"></i>
-                                    <p>Products</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('manufacturing.index') }}"
-                                    class="nav-link {{ Request::is('manufacturing*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-industry"></i>
-                                    <p>Manufacturing</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('productions.index') }}"
-                                    class="nav-link {{ Request::is('productions*') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-tools"></i>
-                                    <p>Productions</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
+                            class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-warehouse"></i>
+                                <p>
+                                    Warehouse
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('warehouse.index') }}"
+                                        class="nav-link {{ Request::is('warehouse') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-clipboard-list"></i>
+                                        <p>All Warehouses</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('invoice_materials.index') }}"
+                                        class="nav-link {{ Request::is('invoice_materials') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-industry"></i>
+                                        <p>Invoice Materials</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('machines.index') }}"
+                                        class="nav-link {{ Request::is('machines') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>Machines</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('products.index') }}"
+                                        class="nav-link {{ Request::is('products*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-box"></i>
+                                        <p>Products</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('manufacturing.index') }}"
+                                        class="nav-link {{ Request::is('manufacturing*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-industry"></i>
+                                        <p>Manufacturing</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('productions.index') }}"
+                                        class="nav-link {{ Request::is('productions*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-tools"></i>
+                                        <p>Productions</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li
+                            class="nav-item has-treeview {{ Request::is('history/material*') || Request::is('history/product*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('history/material*') || Request::is('history/product*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>
+                                    History
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('history.material') }}"
+                                        class="nav-link {{ Request::is('history/material*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-boxes"></i>
+                                        <p>Material History</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=""
+                                        class="nav-link {{ Request::is('history/product*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-cube"></i>
+                                        <p>Product History</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
 

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->boolean('status')->default(1);
-            $table->foreignId('material_id')->constrained('materials')->onDelete('cascade');
+            $table->unsignedBigInteger('material_id');
             $table->double('quantity');
-            $table->double('previous_value');
-            $table->double('current_value');
+            $table->double('previous_value')->nullable();
+            $table->double('current_value')->nullable();
             $table->unsignedBigInteger('from_id');
             $table->unsignedSmallInteger('to_id');
             $table->timestamps();

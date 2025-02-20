@@ -89,6 +89,7 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Materials</th>
+                                    <th class="text-center">Products</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -114,6 +115,12 @@
                                             </a>
                                             
                                         </td>
+                                        <td class="text-center">
+                                            <a href="{{route('warehouse.products',$warehouse->id)}}" class="btn btn-warning">
+                                                <i class="fas fa-warehouse"></i> 
+                                            </a>
+                                        </td>
+                                        
                                         <td class="text-center">
                                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$warehouse->id}}">
                                                 Update

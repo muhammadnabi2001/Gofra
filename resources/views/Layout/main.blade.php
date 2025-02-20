@@ -366,7 +366,31 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="nav-item has-treeview {{ Request::is('history/material*') || Request::is('history/product*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('history/material*') || Request::is('history/product*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>
+                                    History
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('history.material') }}" class="nav-link {{ Request::is('history/material*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-boxes"></i>
+                                        <p>Material History</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="" class="nav-link {{ Request::is('history/product*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-cube"></i>
+                                        <p>Product History</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        
 
                         <li class="nav-item">
                             <a href="{{ route('login.logout') }}" class="nav-link">

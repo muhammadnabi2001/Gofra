@@ -8,7 +8,9 @@ class Product extends Model
 {
     protected $fillable = [
         'name',
-        'img'
+        'img',
+        'price',
+        'slug'
     ];
     public function ingredients()
     {

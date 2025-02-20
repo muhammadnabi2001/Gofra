@@ -1,6 +1,7 @@
 <div class="content-wrapper kanban">
     <section class="content-header">
         <div class="container-fluid">
+            
             <div class="row">
                 <div class="col-sm-6">
                     <h1>Kanban Board</h1>
@@ -10,6 +11,30 @@
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Kanban Board</li>
                     </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -27,7 +52,7 @@
                     <div class="card card-info card-outline">
                         @foreach ($machineproducts as $machineproduct)
                             <div class="card-header">
-                                <h5 class="card-title">Product{{ $machineproduct->id }}</h5>
+                                <h5 class="card-title">{{ $machineproduct->manufacturing->product->name }}</h5>
                                 <div class="card-tools">
                                     <a wire:click="givepermission({{ $machineproduct->id }})" class="btn btn-tool">
                                         <i class="fas fa-pen"></i>
@@ -36,23 +61,14 @@
                             </div>
                             @if ($permission1 == $machineproduct->id)
                                 <div class="card-body">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1"
-                                            disabled>
-                                        <label for="customCheckbox1" class="custom-control-label">
-                                            {{ $machineproduct->manufacturing->product->name }}
-                                        </label>
+                                    <div class="p-3 mb-2 bg-primary text-white rounded">
+                                        <strong>Product Name:</strong> {{ $machineproduct->manufacturing->product->name }}
                                     </div>
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="customCheckbox2"
-                                            disabled>
-                                        <label for="customCheckbox2" class="custom-control-label">
-                                            {{ $machineproduct->manufacturing->total_count }}
-                                        </label>
+                                    <div class="p-3 mb-2 bg-secondary text-white rounded">
+                                        <strong>Total Count:</strong> {{ $machineproduct->manufacturing->total_count }}
                                     </div>
                                     <div class="d-flex justify-content-end mt-2">
-                                        <button class="btn btn-sm btn-success"
-                                            wire:click="acceptRequest({{ $machineproduct->id }})">
+                                        <button class="btn btn-sm btn-success" wire:click="acceptRequest({{ $machineproduct->id }})">
                                             <i class="fas fa-check"></i> Accept
                                         </button>
                                     </div>
@@ -60,6 +76,7 @@
                             @endif
                         @endforeach
                     </div>
+                    
 
                 </div>
             </div>
@@ -115,20 +132,19 @@
                                                               <span>&times;</span>
                                                           </button>
                                                       </div>
-                                                      <div class="modal-body">
-                                                          <div class="form-group">
-                                                              <label for="brak">Brak</label>
-                                                              <input type="text" id="brak" class="form-control" wire:model.defer="brak">
-                                                          </div>
-                                                          <div class="form-group">
-                                                              <label for="count">Count</label>
-                                                              <input type="number" id="count" class="form-control" wire:model.defer="count">
-                                                          </div>
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary" wire:click="closeModal">Bekor qilish</button>
-                                                          <button type="button" class="btn btn-success" wire:click="saveData">Saqlash</button>
-                                                      </div>
+                                                      <form wire:submit.prevent="saveData({{$manufacture->id}})">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="waste">Brak</label>
+                                                                <input type="text" id="waste" class="form-control" wire:model="waste">
+                                                            </div>
+                                                           
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" wire:click="closeModal">Bekor qilish</button>
+                                                            <button type="submit" class="btn btn-success">Saqlash</button>
+                                                        </div>
+                                                    </form>
                                                   </div>
                                               </div>
                                           </div>
@@ -144,28 +160,43 @@
             <div class="card card-row card-default">
                 <div class="card-header bg-info">
                     <h3 class="card-title">
-                        In Progress
+                        Dones
                     </h3>
                 </div>
                 <div class="card-body">
                     <div class="card card-light card-outline">
+                        @foreach ($dones as $done)
                         <div class="card-header">
-                            <h5 class="card-title">Update Readme</h5>
+                            <h5 class="card-title">Product{{ $done->id }}</h5>
                             <div class="card-tools">
-                                <a href="#" class="btn btn-tool btn-link">#2</a>
-                                <a href="#" class="btn btn-tool">
+                                <a wire:click="givingpermit({{ $done->id }})" class="btn btn-tool">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </div>
-                        </div>
+                        </div> 
+                        @if ($permission3 == $done->id)
                         <div class="card-body">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                Aenean commodo ligula eget dolor. Aenean massa.
-                                Cum sociis natoque penatibus et magnis dis parturient montes,
-                                nascetur ridiculus mus.
-                            </p>
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="customCheckbox1"
+                                    disabled>
+                                <label for="customCheckbox1" class="custom-control-label">
+                                    {{ $done->manufacturing->product->name }}
+                                </label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="customCheckbox2"
+                                    disabled>
+                                <label for="customCheckbox2" class="custom-control-label">
+                                    {{ $done->manufacturing->total_count }}
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-end mt-2">
+                                
+                            </div>
                         </div>
+                    @endif  
+                        @endforeach
+                        
                     </div>
                 </div>
             </div>

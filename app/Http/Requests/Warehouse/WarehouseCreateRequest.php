@@ -22,14 +22,16 @@ class WarehouseCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|max:255|string'
+            'name'=>'required|max:255|string',
+            'user_id'=>'required'
         ];
     }
     public function messages()
     {
         return [
             'name.required'=>'Warehouse name  not found',
-            'name.string'=>'Warehouse name not be digit'
+            'name.string'=>'Warehouse name not be digit',
+            'user_id.required'=>'Please select a user'
         ];
     }
 }

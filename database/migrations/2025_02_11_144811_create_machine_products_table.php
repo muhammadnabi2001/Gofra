@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('total_count');
-            $table->integer('waste_count');
+            $table->integer('quality_count')->nullable();
+            $table->integer('waste_count')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
         });

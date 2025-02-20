@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->unsignedBigInteger('product_id');
             $table->double('value');
+            $table->string('type')->default(1);
             $table->timestamps();
         });
     }

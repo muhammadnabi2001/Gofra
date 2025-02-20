@@ -10,4 +10,8 @@ class Machine extends Model
         'name',
         'status'
     ];
+    public function machineproducts()
+    {
+        return $this->hasMany(MachineProduct::class);
+    }
 }

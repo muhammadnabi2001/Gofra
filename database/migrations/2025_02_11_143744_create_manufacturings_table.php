@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->integer('total_count');
-            $table->integer('produced_count');
-            $table->integer('waste_count');
+            $table->integer('quality_count')->nullable();
+            $table->integer('waste_count')->nullable();
             $table->timestamps();
         });
     }

@@ -14,7 +14,9 @@ use App\Http\Controllers\SalaryTypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
+use App\Livewire\DetailWarehouseValuesHistoryComponent;
 use App\Livewire\ManufacturingComponent;
+use App\Livewire\MaterialHistoryComponent;
 use App\Livewire\ProductComponent;
 use App\Livewire\ProductionComponent;
 use Illuminate\Support\Facades\Route;
@@ -74,11 +76,13 @@ Route::middleware([Check::class])->group(function () {
     Route::prefix('warehouse')->group(function() {
         Route::get('/',[WarehouseController::class,'index'])->name('warehouse.index');
         Route::get('/materials/{warehouse}',[WarehouseController::class,'materialpage'])->name('warehouse.materials');
+        Route::get('/products/{warehouse}',[WarehouseController::class,'productpage'])->name('warehouse.products');
         Route::post('/create',[WarehouseController::class,'create'])->name('warehouse.create');
         Route::delete('/delete/{warehouse}',[WarehouseController::class,'delete'])->name('warehouse.delete');
         Route::put('/update/{warehouse}',[WarehouseController::class,'update'])->name('warehouse.update');
         Route::put('/activity/{warehouse}',[WarehouseController::class,'activity'])->name('warehouse.activity');
         Route::post('/transfer/{warehouse_id}',[WarehouseController::class,'export'])->name('warehouse.transfer');
+        Route::post('/producttransfer/{warehouse_id}',[WarehouseController::class,'productexport'])->name('warehouse.producttransfer');
     });
     Route::prefix('invoice_materials')->group(function(){
         Route::get('/',[InvoiceMaterialController::class,'index'])->name('invoice_materials.index');
@@ -100,5 +104,9 @@ Route::middleware([Check::class])->group(function () {
     });
     Route::prefix('productions')->group(function(){
         Route::get('/',ProductionComponent::class)->name('productions.index');
+    });
+    Route::prefix('history')->group(function(){
+        Route::get('/materials',MaterialHistoryComponent::class)->name('history.material');
+        Route::get('/detail', DetailWarehouseValuesHistoryComponent::class)->name('history.detail');
     });
 });
