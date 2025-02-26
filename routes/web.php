@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InvoiceController;
@@ -19,6 +20,7 @@ use App\Livewire\ManufacturingComponent;
 use App\Livewire\MaterialHistoryComponent;
 use App\Livewire\ProductComponent;
 use App\Livewire\ProductionComponent;
+use App\Livewire\SalesComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -108,5 +110,16 @@ Route::middleware([Check::class])->group(function () {
     Route::prefix('history')->group(function(){
         Route::get('/materials',MaterialHistoryComponent::class)->name('history.material');
         Route::get('/detail', DetailWarehouseValuesHistoryComponent::class)->name('history.detail');
+    });
+    Route::prefix('customer')->group(function(){
+        Route::get('/',[CustomerController::class,'index'])->name('customer.index');
+        Route::get('/createpage',[CustomerController::class,'createpage'])->name('customer.createpage');
+        Route::post('/store',[CustomerController::class,'store'])->name('customer.store');
+        Route::get('/updatepage/{customer}',[CustomerController::class,'updatepage'])->name('customer.updatepage');
+        Route::put('/update/{customer}',[CustomerController::class,'update'])->name('customer.update');
+        Route::delete('/delete/{customer}',[CustomerController::class,'delete'])->name('customer.delete');
+    });
+    Route::prefix('sale')->group(function(){
+        Route::get('/',SalesComponent::class)->name('sale.index');
     });
 });

@@ -90,7 +90,7 @@
                     <div class="card card-primary card-outline">
                         @foreach ($manufactured as $manufacture)
                             <div class="card-header">
-                                <h5 class="card-title">Product{{ $manufacture->id }}</h5>
+                                <h5 class="card-title">{{ $manufacture->manufacturing->product->name }}</h5>
                                 <div class="card-tools">
                                     <a wire:click="allowance({{ $manufacture->id }})" class="btn btn-tool">
                                         <i class="fas fa-pen"></i>
@@ -99,62 +99,52 @@
                             </div>
                             @if ($permission2 == $manufacture->id)
                                 <div class="card-body">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1"
-                                            disabled>
-                                        <label for="customCheckbox1" class="custom-control-label">
-                                            {{ $manufacture->manufacturing->product->name }}
-                                        </label>
+                                    <div class="p-3 mb-2 bg-primary text-white rounded">
+                                        <strong>Product Name:</strong> {{ $manufacture->manufacturing->product->name }}
                                     </div>
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="customCheckbox2"
-                                            disabled>
-                                        <label for="customCheckbox2" class="custom-control-label">
-                                            {{ $manufacture->manufacturing->total_count }}
-                                        </label>
+                                    <div class="p-3 mb-2 bg-secondary text-white rounded">
+                                        <strong>Total Count:</strong> {{ $manufacture->manufacturing->total_count }}
                                     </div>
-                                    <div>
-                                      <!-- Tugatish Tugmasi -->
-                                      <div class="d-flex justify-content-end mt-2">
-                                          <button class="btn btn-sm btn-success" wire:click="openModal">
-                                              <i class="fas fa-flag-checkered"></i> Tugatish
-                                          </button>
-                                      </div>
-                                  
-                                      <!-- Modal -->
-                                      @if($showModal)
-                                          <div class="modal fade show d-block" style="background: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
-                                              <div class="modal-dialog" role="document">
-                                                  <div class="modal-content">
-                                                      <div class="modal-header">
-                                                          <h5 class="modal-title">Ishni Tugatish</h5>
-                                                          <button type="button" class="close" wire:click="closeModal">
-                                                              <span>&times;</span>
-                                                          </button>
-                                                      </div>
-                                                      <form wire:submit.prevent="saveData({{$manufacture->id}})">
+                    
+                                    <!-- Tugatish Tugmasi -->
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button class="btn btn-sm btn-success" wire:click="openModal">
+                                            <i class="fas fa-flag-checkered"></i> Tugatish
+                                        </button>
+                                    </div>
+                    
+                                    <!-- Modal -->
+                                    @if($showModal)
+                                        <div class="modal fade show d-block" style="background: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Ishni Tugatish</h5>
+                                                        <button type="button" class="close" wire:click="closeModal">
+                                                            <span>&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form wire:submit.prevent="saveData({{ $manufacture->id }})">
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <label for="waste">Brak</label>
                                                                 <input type="text" id="waste" class="form-control" wire:model="waste">
                                                             </div>
-                                                           
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" wire:click="closeModal">Bekor qilish</button>
                                                             <button type="submit" class="btn btn-success">Saqlash</button>
                                                         </div>
                                                     </form>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      @endif
-                                  </div>
-                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             @endif
                         @endforeach
                     </div>
+                    
                 </div>
             </div>
             <div class="card card-row card-default">
@@ -166,41 +156,35 @@
                 <div class="card-body">
                     <div class="card card-light card-outline">
                         @foreach ($dones as $done)
-                        <div class="card-header">
-                            <h5 class="card-title">Product{{ $done->id }}</h5>
-                            <div class="card-tools">
-                                <a wire:click="givingpermit({{ $done->id }})" class="btn btn-tool">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                            </div>
-                        </div> 
-                        @if ($permission3 == $done->id)
-                        <div class="card-body">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox1"
-                                    disabled>
-                                <label for="customCheckbox1" class="custom-control-label">
-                                    {{ $done->manufacturing->product->name }}
-                                </label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="customCheckbox2"
-                                    disabled>
-                                <label for="customCheckbox2" class="custom-control-label">
-                                    {{ $done->manufacturing->total_count }}
-                                </label>
-                            </div>
-                            <div class="d-flex justify-content-end mt-2">
-                                
-                            </div>
-                        </div>
-                    @endif  
+                            <div class="card-header">
+                                <h5 class="card-title">{{ $done->manufacturing->product->name }}</h5>
+                                <div class="card-tools">
+                                    <a wire:click="givingpermit({{ $done->id }})" class="btn btn-tool">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </div>
+                            </div> 
+                            @if ($permission3 == $done->id)
+                                <div class="card-body">
+                                    <div class="p-3 mb-2 bg-primary text-white rounded">
+                                        <strong>Product Name:</strong> {{ $done->manufacturing->product->name }}
+                                    </div>
+                                    <div class="p-3 mb-2 bg-secondary text-white rounded">
+                                        <strong>Total Count:</strong> {{ $done->manufacturing->total_count }}
+                                    </div>
+                                </div>
+                            @endif  
                         @endforeach
-                        
                     </div>
                 </div>
+                
             </div>
 
         </div>
     </section>
 </div>
+
+
+
+
+

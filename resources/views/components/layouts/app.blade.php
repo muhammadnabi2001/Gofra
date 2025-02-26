@@ -32,8 +32,13 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
     @livewireStyles
 </head>
 
@@ -118,7 +123,8 @@
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-muted"><i
+                                                class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">I got your message bro</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -272,9 +278,9 @@
                             </ul>
                         </li>
                         <li
-                            class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
+                            class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') || Request::is('customer*') ? 'menu-open' : '' }}">
                             <a href="#"
-                                class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
+                                class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') || Request::is('customer*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-tie"></i> <!-- Hodimlar uchun ikonka -->
                                 <p>
                                     Personnel
@@ -300,10 +306,18 @@
                                     <a href="{{ route('salarytype.index') }}"
                                         class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-money-bill-wave"></i>
-                                        <!-- Salary type uchun ikonka -->
                                         <p>Salary Types</p>
                                     </a>
                                 </li>
+                                <!-- Yangi Customer bo‘limi -->
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.index') }}"
+                                        class="nav-link {{ Request::is('customer*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-friends"></i> <!-- Eng mos ikonka -->
+                                        <p>Customers</p>
+                                    </a>
+                                </li>
+
                             </ul>
                         </li>
                         <li
@@ -502,6 +516,9 @@
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('../../plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    
     @livewireScripts
 </body>
 

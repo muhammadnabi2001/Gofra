@@ -276,10 +276,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li
-                            class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'menu-open' : '' }}">
-                            <a href="#"
-                                class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') ? 'active' : '' }}">
+                        <li class="nav-item has-treeview {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') || Request::is('customer*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('employee*') || Request::is('department*') || Request::is('salarytype*') || Request::is('customer*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-tie"></i> <!-- Hodimlar uchun ikonka -->
                                 <p>
                                     Personnel
@@ -288,29 +286,34 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('department.index') }}"
-                                        class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
+                                    <a href="{{ route('department.index') }}" class="nav-link {{ Request::is('department*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-building"></i>
                                         <p>Departments</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('employee.index') }}"
-                                        class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
+                                    <a href="{{ route('employee.index') }}" class="nav-link {{ Request::is('employee*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-user"></i> <!-- Employee uchun ikonka -->
                                         <p>Employees</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('salarytype.index') }}"
-                                        class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
+                                    <a href="{{ route('salarytype.index') }}" class="nav-link {{ Request::is('salarytype*') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-money-bill-wave"></i>
-                                        <!-- Salary type uchun ikonka -->
                                         <p>Salary Types</p>
                                     </a>
                                 </li>
+                                <!-- Yangi Customer bo‘limi -->
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.index') }}" class="nav-link {{ Request::is('customer*') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-friends"></i> <!-- Eng mos ikonka -->
+                                        <p>Customers</p>
+                                    </a>
+                                </li>
+                                
                             </ul>
                         </li>
+                        
                         <li
                             class="nav-item has-treeview {{ Request::is('warehouse*') || Request::is('invoice_materials*') || Request::is('invoice*') || Request::is('products*') || Request::is('machines*') || Request::is('manufacturing*') || Request::is('productions*') ? 'menu-open' : '' }}">
                             <a href="#"
