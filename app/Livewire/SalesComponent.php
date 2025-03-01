@@ -14,15 +14,18 @@ class SalesComponent extends Component
     public $customers, $products;
     public $selected_customer;
     public $sales = [];
-    public $errorMessage = '';
     public $showNewCustomerInput = false;
     public $new_customer_name;
-    protected $rules = [
-        'selected_customer' => 'required_without:new_customer_name',
-        'new_customer_name' => 'required_without:selected_customer',
-        'sales.*.product_id' => 'required|exists:products,id',
-        'sales.*.quantity' => 'required|integer|min:1',
-    ];
+
+    protected function rules()
+    {
+        return [
+            'selected_customer' => 'required_without:new_customer_name',
+            'new_customer_name' => 'required_without:selected_customer',
+            'sales.*.product_id' => 'required|exists:products,id',
+            'sales.*.quantity' => 'required|integer|min:1',
+        ];
+    }
 
     protected $listeners = ['customerSelected', 'updatePrice'];
 
@@ -32,16 +35,17 @@ class SalesComponent extends Component
         $this->products = Product::all();
         $this->addSaleRow();
     }
+
     public function toggleNewCustomerInput()
     {
         $this->showNewCustomerInput = !$this->showNewCustomerInput;
     }
 
-    
     public function productSelected($index, $productId)
     {
         $this->sales[$index]['product_id'] = $productId;
     }
+
     public function customerSelected($customerNameOrId)
     {
         if (!is_numeric($customerNameOrId)) {
@@ -56,7 +60,6 @@ class SalesComponent extends Component
     public function addSaleRow()
     {
         $this->sales[] = ['product_id' => '', 'quantity' => 1, 'price' => 0, 'total' => 0];
-        
     }
 
     public function removeSaleRow($index)
@@ -80,11 +83,7 @@ class SalesComponent extends Component
     {
         $quantity = (int) ($this->sales[$index]['quantity'] ?? 0);
         if ($quantity < 1) {
-            return;
             $this->sales[$index]['quantity'] = 1;
-            $this->errorMessage = 'Quantity must be at least 1.';
-        } else {
-            $this->errorMessage = '';
         }
         $this->calculateTotal($index);
     }
@@ -98,9 +97,10 @@ class SalesComponent extends Component
 
     public function saveSale()
     {
-       $this->validate();
+        $this->validate();
+
         $total_price = array_sum(array_column($this->sales, 'total'));
-    
+
         if ($this->new_customer_name) {
             $newcustomer = Customer::create([
                 'name' => $this->new_customer_name
@@ -109,21 +109,20 @@ class SalesComponent extends Component
         } else {
             $customer_id = $this->selected_customer;
         }
-    
+
         foreach ($this->sales as $saleItem) {
-            $warehouseStock = WarehouseValue::where('product_id', $saleItem['product_id'])->sum('value');
-    
+            $warehouseStock = WarehouseValue::where('product_id', $saleItem['product_id'])->where('type', 2)->sum('value');
             if ($saleItem['quantity'] > $warehouseStock) {
-                $this->errorMessage = 'Not enough stock for product ID: ' . $saleItem['product_id'];
+                $this->addError('error', 'Not enough stock for product ID: ' . $saleItem['product_id']);
                 return;
             }
         }
-    
+
         $sale = Sale::create([
             'customer_id' => $customer_id,
             'total_price' => $total_price,
         ]);
-    
+
         foreach ($this->sales as $saleItem) {
             if ($saleItem['product_id']) {
                 SaleItem::create([
@@ -133,20 +132,17 @@ class SalesComponent extends Component
                     'price' => $saleItem['price'],
                     'total' => $saleItem['total'],
                 ]);
-    
-                $warehouseValue = WarehouseValue::where('product_id', $saleItem['product_id'])->first();
-                if ($warehouseValue) {
-                    $warehouseValue->value -= $saleItem['quantity'];
-                    $warehouseValue->save();
-                }
+
+                // $warehouseValue = WarehouseValue::where('product_id', $saleItem['product_id'])->where('type',2)->first();
+                // if ($warehouseValue) {
+                //     $warehouseValue->value -= $saleItem['quantity'];
+                //     $warehouseValue->save();
+                // }
             }
         }
-    
-        $this->errorMessage = 'Sale successfully saved!';
-        $this->reset(['selected_customer', 'sales']);
-        $this->addSaleRow();
+
+        return redirect()->route('sale.table')->with('success', 'Sale completed successfully');
     }
-    
 
     public function render()
     {

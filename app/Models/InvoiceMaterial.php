@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoiceMaterial extends Model
 {
+    use LogTrait;
     protected $fillable=[
         'material_id',
         'invoice_id',

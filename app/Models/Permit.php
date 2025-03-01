@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Permit extends Model
 {
+    use LogTrait;
     protected $fillable=[
         'group_id',
         'name',

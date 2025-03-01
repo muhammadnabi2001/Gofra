@@ -15,12 +15,15 @@ use App\Http\Controllers\SalaryTypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\Check;
+use App\Livewire\ActionHistoryComponent;
 use App\Livewire\DetailWarehouseValuesHistoryComponent;
 use App\Livewire\ManufacturingComponent;
 use App\Livewire\MaterialHistoryComponent;
 use App\Livewire\ProductComponent;
 use App\Livewire\ProductionComponent;
 use App\Livewire\SalesComponent;
+use App\Livewire\SalesTableComponent;
+use App\Livewire\SaleUpdateComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -110,6 +113,7 @@ Route::middleware([Check::class])->group(function () {
     Route::prefix('history')->group(function(){
         Route::get('/materials',MaterialHistoryComponent::class)->name('history.material');
         Route::get('/detail', DetailWarehouseValuesHistoryComponent::class)->name('history.detail');
+        Route::get('/action',ActionHistoryComponent::class)->name('history.action');
     });
     Route::prefix('customer')->group(function(){
         Route::get('/',[CustomerController::class,'index'])->name('customer.index');
@@ -121,5 +125,7 @@ Route::middleware([Check::class])->group(function () {
     });
     Route::prefix('sale')->group(function(){
         Route::get('/',SalesComponent::class)->name('sale.index');
+        Route::get('/table',SalesTableComponent::class)->name('sale.table');
+        Route::get('/update/{sale}',SaleUpdateComponent::class)->name('sale.update');
     });
 });

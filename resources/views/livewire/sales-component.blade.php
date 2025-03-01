@@ -98,6 +98,7 @@
                     </div>
                 </div>
             </div>
+            <a href="{{route('sale.table')}}" class="btn btn-dark m-2">Back</a>
         </section>
     </div>
 </div>
